@@ -1,0 +1,126 @@
+<div class="flex-1 p-6 space-y-6 bg-gray-50"> <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 bg-white shadow-sm">
+    <p class="text-gray-600 text-sm font-medium leading-normal">Vuelos Próximos (24h)</p>
+    <p class="text-gray-900 tracking-tight text-3xl font-bold leading-tight">18</p>
+  </div>
+  <div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 bg-white shadow-sm">
+    <p class="text-gray-600 text-sm font-medium leading-normal">Vuelos en Ruta</p>
+    <p class="text-gray-900 tracking-tight text-3xl font-bold leading-tight">12</p>
+  </div>
+  <div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 bg-white shadow-sm">
+    <p class="text-gray-600 text-sm font-medium leading-normal">Vuelos Completados (Hoy)</p>
+    <p class="text-gray-900 tracking-tight text-3xl font-bold leading-tight">45</p>
+  </div>
+</div>
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+    <div class="xl:col-span-2 flex flex-col gap-4">
+      <h2 class="text-gray-900 text-lg font-bold leading-tight tracking-[-0.015em]">Próximos Vuelos</h2>
+      <div class="w-full @container">
+        <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+              <tr class="bg-gray-50">
+                <th class="px-4 py-3 text-left text-gray-600 text-xs font-semibold uppercase tracking-wider">Nº de Vuelo</th>
+                <th class="px-4 py-3 text-left text-gray-600 text-xs font-semibold uppercase tracking-wider">Origen</th>
+                <th class="px-4 py-3 text-left text-gray-600 text-xs font-semibold uppercase tracking-wider">Destino</th>
+                <th class="px-4 py-3 text-left text-gray-600 text-xs font-semibold uppercase tracking-wider">Salida/Llegada</th>
+                <th class="px-4 py-3 text-left text-gray-600 text-xs font-semibold uppercase tracking-wider">Estado</th>
+                <th class="px-4 py-3 text-left text-gray-600 text-xs font-semibold uppercase tracking-wider">Acción</th>
+              </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-200">
+              <tr>
+                <td class="h-[60px] px-4 py-2 text-gray-800 text-sm font-medium leading-normal">IB2801</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Madrid (MAD)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">París (CDG)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">10:30 - 12:35</td>
+                <td class="h-[60px] px-4 py-2 text-sm font-normal leading-normal">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">A tiempo</span>
+                </td>
+                <td class="h-[60px] px-4 py-2 text-primary text-sm font-bold leading-normal tracking-[0.015em] cursor-pointer hover:underline">Ver detalles</td>
+              </tr>
+              <tr>
+                <td class="h-[60px] px-4 py-2 text-gray-800 text-sm font-medium leading-normal">VY1002</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Barcelona (BCN)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Londres (LGW)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">11:00 - 12:20</td>
+                <td class="h-[60px] px-4 py-2 text-sm font-normal leading-normal">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">A tiempo</span>
+                </td>
+                <td class="h-[60px] px-4 py-2 text-primary text-sm font-bold leading-normal tracking-[0.015em] cursor-pointer hover:underline">Ver detalles</td>
+              </tr>
+              <tr>
+                <td class="h-[60px] px-4 py-2 text-gray-800 text-sm font-medium leading-normal">UX6049</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Valencia (VLC)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Roma (FCO)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">11:15 - 13:10</td>
+                <td class="h-[60px] px-4 py-2 text-sm font-normal leading-normal">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-orange-100 text-orange-800">Retrasado</span>
+                </td>
+                <td class="h-[60px] px-4 py-2 text-primary text-sm font-bold leading-normal tracking-[0.015em] cursor-pointer hover:underline">Ver detalles</td>
+              </tr>
+              <tr>
+                <td class="h-[60px] px-4 py-2 text-gray-800 text-sm font-medium leading-normal">FR5402</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Málaga (AGP)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Berlín (BER)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">11:45 - 15:00</td>
+                <td class="h-[60px] px-4 py-2 text-sm font-normal leading-normal">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">A tiempo</span>
+                </td>
+                <td class="h-[60px] px-4 py-2 text-primary text-sm font-bold leading-normal tracking-[0.015em] cursor-pointer hover:underline">Ver detalles</td>
+              </tr>
+              <tr>
+                <td class="h-[60px] px-4 py-2 text-gray-800 text-sm font-medium leading-normal">AF1101</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Madrid (MAD)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">Amsterdam (AMS)</td>
+                <td class="h-[60px] px-4 py-2 text-gray-600 text-sm font-normal leading-normal">12:00 - 14:30</td>
+                <td class="h-[60px] px-4 py-2 text-sm font-normal leading-normal">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Cancelado</span>
+                </td>
+                <td class="h-[60px] px-4 py-2 text-primary text-sm font-bold leading-normal tracking-[0.015em] cursor-pointer hover:underline">Ver detalles</td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-4">
+      <h2 class="text-gray-900 text-lg font-bold leading-tight tracking-[-0.015em]">Aviones por Base</h2>
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6 flex-1 flex flex-col justify-between">
+        <div class="space-y-4">
+          <div class="flex items-end gap-3 h-48">
+            <div class="group relative flex-1 h-full flex items-end">
+              <div class="w-full bg-primary/20 rounded-t-md" style="height: 75%;"></div>
+              <div class="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-900 text-white text-xs font-bold py-1 px-2 rounded-md">15</div>
+            </div>
+            <div class="group relative flex-1 h-full flex items-end">
+              <div class="w-full bg-primary/20 rounded-t-md" style="height: 60%;"></div>
+              <div class="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-900 text-white text-xs font-bold py-1 px-2 rounded-md">12</div>
+            </div>
+            <div class="group relative flex-1 h-full flex items-end">
+              <div class="w-full bg-primary/20 rounded-t-md" style="height: 40%;"></div>
+              <div class="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-900 text-white text-xs font-bold py-1 px-2 rounded-md">8</div>
+            </div>
+            <div class="group relative flex-1 h-full flex items-end">
+              <div class="w-full bg-primary/20 rounded-t-md" style="height: 35%;"></div>
+              <div class="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-900 text-white text-xs font-bold py-1 px-2 rounded-md">7</div>
+            </div>
+            <div class="group relative flex-1 h-full flex items-end">
+              <div class="w-full bg-primary/20 rounded-t-md" style="height: 25%;"></div>
+              <div class="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-gray-900 text-white text-xs font-bold py-1 px-2 rounded-md">5</div>
+            </div>
+          </div>
+          <div class="flex border-t border-gray-200 pt-2 text-xs text-gray-500">
+            <p class="flex-1 text-center">MAD</p>
+            <p class="flex-1 text-center">BCN</p>
+            <p class="flex-1 text-center">VLC</p>
+            <p class="flex-1 text-center">AGP</p>
+            <p class="flex-1 text-center">PMI</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

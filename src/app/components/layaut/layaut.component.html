@@ -1,0 +1,14 @@
+<p>layaut works!</p>
+
+
+<button
+  (click)="logout()"
+  [disabled]="loading"
+  class="logout-btn"
+  aria-label="Cerrar sesión"
+>
+  <span class="material-symbols-outlined">logout</span>
+  <span *ngIf="!loading">Cerrar sesión</span>
+  <span *ngIf="loading">Cerrando...</span>
+</button>
+

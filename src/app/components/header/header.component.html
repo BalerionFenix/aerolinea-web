@@ -1,0 +1,52 @@
+<header class="flex sticky top-0 z-10 items-center justify-between whitespace-nowrap border-b border-gray-200 bg-white/80 backdrop-blur-sm px-6 py-4">
+  <!-- Título -->
+  <div class="flex items-center gap-8">
+    <h2 class="text-gray-900 text-xl font-bold leading-tight tracking-[-0.015em]">Panel de Control</h2>
+  </div>
+
+  <!-- Búsqueda, notificaciones y perfil -->
+  <div class="flex flex-1 justify-end items-center gap-4">
+
+    <!-- Búsqueda -->
+    <label class="relative flex-col min-w-40 !h-10 max-w-64 hidden sm:flex">
+      <div class="flex w-full flex-1 items-stretch rounded-lg h-full">
+        <div class="text-gray-500 flex bg-gray-200 items-center justify-center pl-3 rounded-l-lg border-r-0">
+          <!-- Heroicon: Magnifying Glass -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/>
+          </svg>
+        </div>
+        <input type="text" placeholder="Buscar..."
+               class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-gray-900 focus:outline-0 focus:ring-2 focus:ring-blue-500 border-none bg-gray-200 h-full placeholder:text-gray-500 px-4 rounded-l-none border-l-0 pl-2 text-sm font-normal leading-normal"/>
+      </div>
+    </label>
+
+    <!-- Botones de notificación y ajustes -->
+    <div class="flex gap-2">
+      <!-- Notificaciones -->
+      <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-transparent text-gray-600 hover:bg-gray-200">
+        <!-- Heroicon: Bell -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-5-5.917V5a2 2 0 10-4 0v.083A6 6 0 004 11v3.159c0 .538-.214 1.055-.595 1.436L2 17h5m5 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+      </button>
+
+      <!-- Ajustes -->
+      <button class="flex max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 w-10 bg-transparent text-gray-600 hover:bg-gray-200">
+        <!-- Heroicon: Cog -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M11.049 2.927c.3-.921 1.603-.921 1.902 0a1.72 1.72 0 002.576.999l.921-.53a1.72 1.72 0 012.08.268l.708.707a1.72 1.72 0 01.268 2.08l-.53.921c.4.973.4 2.093 0 3.066l.53.921a1.72 1.72 0 01-.268 2.08l-.707.708a1.72 1.72 0 01-2.08.268l-.921-.53a1.72 1.72 0 00-2.576.999c-.3.921-1.603.921-1.902 0a1.72 1.72 0 00-2.576-.999l-.921.53a1.72 1.72 0 01-2.08-.268l-.707-.707a1.72 1.72 0 01-.268-2.08l.53-.921a5.983 5.983 0 010-3.066l-.53-.921a1.72 1.72 0 01.268-2.08l.707-.708a1.72 1.72 0 012.08-.268l.921.53a1.72 1.72 0 002.576-.999z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Imagen de perfil -->
+    <div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10"
+         style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCULY3oZnSw9SZZaLC15yN-4TJo2VrY1ea8gk2yMOZ56pyDOeo7OQ7ShnHcvDNTZz391DBxE9_6OoqN68HSQyEfMxUanwIeCNjtGadoNLx6C_k_deMy6Q9BIQ1nPkuJ9VYznQ3WqRsFrnXnh9ek7Dh6mMYFADX_5gf3Iyeeyvkuo1aiDLB8B6LL8q6OBStKwrm0QNWEmHNrR2bgqeBhxGYwIE8zmMiLqsoXER_G_v0TX2JHeQPROxvAUAJBBqV4BkNs1-XvXZ0_FoRk");'>
+    </div>
+  </div>
+</header>

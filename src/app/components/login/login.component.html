@@ -1,0 +1,134 @@
+<div class="relative flex min-h-screen w-full flex-col bg-gray-100">
+  <main class="flex flex-1 justify-center items-center">
+    <div class="flex w-full max-w-5xl overflow-hidden rounded-xl bg-white shadow-xl">
+
+      <div class="hidden lg:flex w-1/2">
+        <div
+          class="w-full bg-center bg-no-repeat bg-cover"
+          style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCQd6aud0soCRqeJmfmzasvEbz3VFV_oW8WuoU4_7dSE143xXed1QHXV8NAyOqiqbpK3j7AdVB_YQFFJR5mUKk-i5XciswY9nAp0xz5V5jt5NHl_Sro_u9r0e1xSEflO0QqTXjWcvRKvUBRmmnAh1SDoMxn_gNA577ai0uGkGshUrW08cr2CQrPgV9_tdJqtrUqwPYca6niulC52sETA8oZ1BukKj6mJpSB6dxZ10DSaOSQVMEn1es7BbOBls1iV51x8KXDxw5Byc8V');"
+          aria-hidden="true"
+        ></div>
+      </div>
+
+      <!-- Sección de formulario -->
+      <div class="w-full lg:w-1/2 p-10 sm:p-14 flex flex-col justify-center">
+
+        <!-- Encabezado -->
+        <div class="flex flex-col items-start gap-2 mb-8">
+          <div class="flex items-center gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke-width="1.5" stroke="#2563eb" class="w-10 h-10">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M2.25 12l8.954-8.955c.44-.439 1.15-.439 1.59 0L21.75 12M4.5 9.75v10.5a1.5 1.5 0 001.5 1.5h3.75v-6.75a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21h3.75a1.5 1.5 0 001.5-1.5V9.75" />
+            </svg>
+            <h1 class="text-3xl font-extrabold text-gray-800">Bienvenido</h1>
+          </div>
+          <p class="text-gray-500">Inicia sesión para gestionar la aerolínea</p>
+        </div>
+
+        <!-- Formulario reactivo -->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 w-full" novalidate>
+
+          <!-- Campo usuario -->
+          <div>
+            <label class="text-sm font-medium text-gray-700 pb-2 block">Usuario o Correo</label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+                <!-- Heroicon: User -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6.75a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.5 19.5a8.25 8.25 0 0115 0v.75H4.5v-.75z" />
+                </svg>
+              </span>
+              <input
+                formControlName="email"
+                class="pl-12 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700 placeholder:text-gray-400"
+                placeholder="Introduce tu usuario o correo"
+              />
+            </div>
+          </div>
+
+          <!-- Campo contraseña -->
+          <div>
+            <label class="text-sm font-medium text-gray-700 pb-2 block">Contraseña</label>
+            <div class="relative">
+    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400">
+      <!-- Heroicon: Lock Closed -->
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+           stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M16.5 10.5V7.125a4.125 4.125 0 10-8.25 0V10.5M5.25 10.5h13.5a.75.75 0 01.75.75v9a.75.75 0 01-.75.75H5.25a.75.75 0 01-.75-.75v-9a.75.75 0 01.75-.75z" />
+      </svg>
+    </span>
+
+              <input
+                formControlName="password"
+                [type]="passwordVisible ? 'text' : 'password'"
+                class="pl-12 pr-12 w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700 placeholder:text-gray-400"
+                placeholder="Introduce tu contraseña"
+              />
+
+              <!-- Botón del ojo -->
+              <button
+                type="button"
+                (click)="togglePassword()"
+                class="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 transition"
+                aria-label="Mostrar u ocultar contraseña"
+              >
+                <!-- 👁 Heroicon: Eye (mostrar contraseña) -->
+                <svg *ngIf="!passwordVisible" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M2.036 12.322a1.012 1.012 0 010-.644C3.423 7.51 7.264 4.5 12 4.5c4.736 0 8.577 3.01 9.964 7.178.07.207.07.437 0 .644C20.577 16.49 16.736 19.5 12 19.5c-4.736 0-8.577-3.01-9.964-7.178z" />
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+
+                <svg *ngIf="passwordVisible" xmlns="http://www.w3.org/2000/svg" fill="none"
+                     viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.394M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.774 3.162 10.066 7.5a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228L21 21" />
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Botón -->
+          <button
+            type="submit"
+            [disabled]="loginForm.invalid"
+            class="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors duration-200 disabled:opacity-50"
+          >
+            Iniciar sesión
+          </button>
+
+          <button
+            type="button"
+            (click)="loginWithGoogle()"
+            class="mt-3 w-full flex items-center justify-center gap-3 border border-gray-300 rounded-lg py-3 bg-white hover:bg-gray-100 transition-colors duration-200 shadow-sm"
+          >
+            <img
+              src="https://www.svgrepo.com/show/355037/google.svg"
+              alt="Google logo"
+              class="w-5 h-5"
+            />
+            <span class="text-gray-700 font-medium">Continuar con Google</span>
+          </button>
+
+
+
+        </form>
+
+        <!-- Enlaces inferiores -->
+        <div class="text-center mt-6">
+          <a class="text-sm text-blue-600 hover:underline font-medium" href="reset-password">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <div class="mt-12 text-center">
+          <p class="text-xs text-gray-400">© 2024 AeroManage. Todos los derechos reservados.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+
