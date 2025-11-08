@@ -7,6 +7,7 @@ import {LayautComponent} from './components/layaut/layaut.component';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import {PanelControlComponent} from './pages/panel-control/panel-control.component';
 import {ResetPasswordComponent} from './components/reset-password/reset-password.component';
+import {BasesAereasComponent} from './pages/bases-aereas/bases-aereas.component';
 
 export const routes: Routes = [
 
@@ -28,6 +29,14 @@ export const routes: Routes = [
         path: 'panel-control',
         component: PanelControlComponent
       },
+
+      {
+        path: 'bases-aereas',
+        component: BasesAereasComponent,
+      },
+
+
+
 
       /*{
         path: 'vuelos',
