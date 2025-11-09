@@ -1,17 +1,30 @@
-<aside class="flex w-64 flex-col bg-white border-r border-gray-200 shadow-sm min-h-screen transition-colors">
-  <div class="flex h-full flex-col justify-between p-4">
+  <aside class="flex w-64 flex-col bg-white border-r border-gray-200 shadow-sm min-h-screen transition-colors">
+    <div class="flex h-full flex-col justify-between p-4">
 
-    <!-- Encabezado -->
-    <div class="flex items-center gap-3 p-2">
-      <div
-        class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-gray-300"
-        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdFca0psFz8JB4JilULdl-S6iGuRCoFT_Fn5-Ti5olO3Bx6MhdTrFzg9Muekyx-clDgLi8lXB5nWmt4fp5VTDLMd816VtpoJIMKfw8cly2hbmsswk2ggSP8xPI0bKJq2cePRjVn0IBzxX0NgsjBWksP7y7KdweXYXMuRauqfzrxaB8rI_WdVyGyEFfybDkVGqMS5BD3Y074DJbuCeTTMBW4RcoHTiCECkjf1YHWFDvNg4Ynl-IUP0hXRjBElN7lIVCpWx9yFDlLN7p");'>
+      <!-- Encabezado -->
+      <div class="flex items-center gap-3 p-2">
+        <div
+          class="bg-center bg-no-repeat bg-cover rounded-full size-10 border border-gray-300"
+          style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDdFca0psFz8JB4JilULdl-S6iGuRCoFT_Fn5-Ti5olO3Bx6MhdTrFzg9Muekyx-clDgLi8lXB5nWmt4fp5VTDLMd816VtpoJIMKfw8cly2hbmsswk2ggSP8xPI0bKJq2cePRjVn0IBzxX0NgsjBWksP7y7KdweXYXMuRauqfzrxaB8rI_WdVyGyEFfybDkVGqMS5BD3Y074DJbuCeTTMBW4RcoHTiCECkjf1YHWFDvNg4Ynl-IUP0hXRjBElN7lIVCpWx9yFDlLN7p");'>
+        </div>
+        <div>
+          <h1 class="text-gray-900 text-base font-bold">Airline Corp</h1>
+          <p class="text-gray-500 text-sm">Administración</p>
+        </div>
       </div>
-      <div>
-        <h1 class="text-gray-900 text-base font-bold">Airline Corp</h1>
-        <p class="text-gray-500 text-sm">Administración</p>
-      </div>
-    </div>
+
+
+      <!-- Navegación -->
+      <nav class="flex flex-col gap-1 mt-6">
+        <!-- Panel de Control -->
+        <a [routerLink]="['/dashboard/panel-control']"    routerLinkActive="bg-blue-100 text-blue-700 font-semibold"
+            class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+          <!-- Heroicon: Home (outline) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10.5L12 4l9 6.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V10.5z"/>
+          </svg>
+          <span class="text-sm font-medium">Panel de Control</span>
+        </a>
 
     <!-- Navegación -->
     <nav class="flex flex-col gap-1 mt-6">
@@ -22,62 +35,68 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 10.5L12 4l9 6.5V20a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1V10.5z"/>
         </svg>
         <span class="text-sm font-medium">Panel de Control</span>
-      </a>
 
-      <!-- Bases Aéreas -->
-      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
-        <!-- Heroicon: Building Office (outline) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21V7a1 1 0 011-1h16a1 1 0 011 1v14M8 21v-6h8v6M8 7v2M12 7v2M16 7v2" />
-        </svg>
-        <span class="text-sm font-medium">Bases Aéreas</span>
-      </a>
 
-      <!-- Vuelos (activo) -->
-      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-blue-100 text-blue-700 font-semibold transition">
-        <!-- Heroicon: Paper Airplane (solid-like) - use filled path for emphasis -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-        </svg>
-        <span class="text-sm">Vuelos</span>
-      </a>
+        <!-- Bases Aéreas -->
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+          <!-- Heroicon: Building Office (outline) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21V7a1 1 0 011-1h16a1 1 0 011 1v14M8 21v-6h8v6M8 7v2M12 7v2M16 7v2" />
+          </svg>
+          <span class="text-sm font-medium">Bases Aéreas</span>
+        </a>
 
-      <!-- Tripulación -->
-      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
-        <!-- Heroicon: Users (outline) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 11a4 4 0 10-8 0 4 4 0 008 0z" />
-        </svg>
-        <span class="text-sm font-medium">Tripulación</span>
-      </a>
+        <!-- Vuelos -->
+        <a [routerLink]="['/dashboard/vuelos']"
+           routerLinkActive="bg-blue-100 text-blue-700 font-semibold"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+          <!-- Heroicon: Paper Airplane (outline) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+          <span class="text-sm font-medium">Vuelos</span>
+        </a>
 
-      <!-- Pilotos -->
-      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
-        <!-- Heroicon: User (outline) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.121 17.804A9 9 0 1118.879 6.196 9 9 0 015.121 17.804zM15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span class="text-sm font-medium">Pilotos</span>
-      </a>
-    </nav>
 
-    <!-- Usuario y Logout -->
-    <div class="mt-auto pt-4 border-t border-gray-200">
-      <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
-        <!-- Heroicon: User Circle (outline) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-        </svg>
-        <span class="text-sm font-medium">Perfil de Usuario</span>
-      </a>
+        <!-- Tripulación -->
+        <a [routerLink]="['/dashboard/tripulacion']"
+           routerLinkActive="bg-blue-100 text-blue-700 font-semibold"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+          <!-- Heroicon: Users (outline) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M16 11a4 4 0 10-8 0 4 4 0 008 0z" />
+          </svg>
+          <span class="text-sm font-medium">Tripulación</span>
+        </a>
 
-      <button (click)="logout()" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition w-full">
-        <!-- Heroicon: Arrow Right On Rectangle (logout) -->
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12H3m0 0l4-4m-4 4l4 4M21 12v7a2 2 0 01-2 2H9" />
-        </svg>
-        <span class="text-sm font-medium">Cerrar Sesión</span>
-      </button>
+        <!-- Pilotos -->
+        <a [routerLink]="['/dashboard/pilotos']"
+           routerLinkActive="bg-blue-100 text-blue-700 font-semibold"
+           class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M5.121 17.804A9 9 0 1118.879 6.196 9 9 0 015.121 17.804zM15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span class="text-sm font-medium">Pilotos</span>
+        </a>
+      </nav>
+
+      <!-- Usuario y Logout -->
+      <div class="mt-auto pt-4 border-t border-gray-200">
+        <a href="#" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition">
+          <!-- Heroicon: User Circle (outline) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 11a3 3 0 11-6 0 3 3 0 016 0zM2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          <span class="text-sm font-medium">Perfil de Usuario</span>
+        </a>
+
+        <button (click)="logout()" class="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-700 hover:bg-red-50 hover:text-red-600 transition w-full">
+          <!-- Heroicon: Arrow Right On Rectangle (logout) -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 12H3m0 0l4-4m-4 4l4 4M21 12v7a2 2 0 01-2 2H9" />
+          </svg>
+          <span class="text-sm font-medium">Cerrar Sesión</span>
+        </button>
+      </div>
     </div>
-  </div>
-</aside>
+  </aside>
