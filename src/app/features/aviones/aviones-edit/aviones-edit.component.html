@@ -1,0 +1,88 @@
+<main class="px-6 sm:px-8 lg:px-12 py-10 flex flex-1 justify-center bg-white-50">
+  <div class="flex flex-col w-full max-w-5xl gap-8">
+
+    <!-- Título -->
+    <div class="flex flex-col gap-1">
+      <p class="text-gray-900 text-3xl font-black leading-tight">Editar Avión</p>
+      <p class="text-gray-500 text-base font-normal leading-normal">
+        Actualiza los detalles del avión.
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-md">
+      <form [formGroup]="avionForm" (ngSubmit)="submitForm()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+
+        <!-- Tipo -->
+        <div>
+          <label for="tipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+          <input formControlName="tipo" id="tipo" type="text"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+        </div>
+
+        <!-- Modelo -->
+        <div>
+          <label for="modelo" class="block text-sm font-medium text-gray-700 mb-1">Modelo</label>
+          <input formControlName="modelo" id="modelo" type="text"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+        </div>
+
+        <!-- Fabricante -->
+        <div class="md:col-span-2">
+          <label for="fabricante" class="block text-sm font-medium text-gray-700 mb-1">Fabricante</label>
+          <input formControlName="fabricante" id="fabricante" type="text"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+        </div>
+
+        <!-- Capacidad -->
+        <div>
+          <label for="capacidad" class="block text-sm font-medium text-gray-700 mb-1">Capacidad</label>
+          <input formControlName="capacidad" id="capacidad" type="number"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+        </div>
+
+        <!-- Año de Fabricación -->
+        <div>
+          <label for="anio_fabricacion" class="block text-sm font-medium text-gray-700 mb-1">Año de Fabricación</label>
+          <input formControlName="anio_fabricacion" id="anio_fabricacion" type="number"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+        </div>
+
+        <!-- Base Asignada -->
+        <div>
+          <label for="base_codigo" class="block text-sm font-medium text-gray-700 mb-1">Base Asignada</label>
+          <select formControlName="base_codigo" id="base_codigo"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3">
+            <option value="">Seleccionar base</option>
+            <option *ngFor="let base of bases" [value]="base.base_codigo"
+                    [selected]="base.base_codigo === avionForm.get('base_codigo')?.value">
+              {{ base.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Horas de Vuelo -->
+        <div>
+          <label for="horas_vuelo_totales" class="block text-sm font-medium text-gray-700 mb-1">Horas de Vuelo Totales</label>
+          <input formControlName="horas_vuelo_totales" id="horas_vuelo_totales" type="number"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+        </div>
+
+        <!-- Botones -->
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-gray-200 mt-3">
+          <button type="button" (click)="cancel()" class="flex items-center justify-center h-10 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-bold">
+            Cancelar
+          </button>
+          <button type="submit" class="flex items-center justify-center h-10 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 gap-2 text-sm font-bold">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+            Guardar Cambios
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>

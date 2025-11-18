@@ -1,0 +1,114 @@
+<main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+  <div class="max-w-7xl mx-auto flex flex-col gap-6">
+
+    <!-- Título y botón añadir -->
+    <div class="flex flex-wrap justify-between items-center gap-4">
+      <h1 class="text-3xl font-black text-slate-900">Gestión de Tripulación</h1>
+      <button class="flex items-center gap-2 px-4 h-10 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition">
+        <span class="material-symbols-outlined text-base">add</span>
+        Añadir Nuevo Miembro
+      </button>
+    </div>
+
+    <!-- Barra de búsqueda y filtros -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Buscar -->
+      <div class="lg:col-span-2">
+        <div class="flex items-center bg-white border border-slate-200 rounded-lg shadow-sm h-12">
+          <span class="material-symbols-outlined text-slate-400 pl-3">search</span>
+          <input type="text" placeholder="Buscar por nombre, ID..." class="flex-1 px-3 h-full bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none" />
+        </div>
+      </div>
+
+      <!-- Filtrar por BaseModel -->
+      <button class="flex items-center justify-between bg-white border border-slate-200 rounded-lg shadow-sm px-4 h-12">
+        <span class="text-slate-600 text-sm font-medium">Filtrar por BaseModel</span>
+        <span class="material-symbols-outlined text-slate-400">expand_more</span>
+      </button>
+
+      <!-- Filtrar por Rol -->
+      <button class="flex items-center justify-between bg-white border border-slate-200 rounded-lg shadow-sm px-4 h-12">
+        <span class="text-slate-600 text-sm font-medium">Filtrar por Rol</span>
+        <span class="material-symbols-outlined text-slate-400">expand_more</span>
+      </button>
+    </div>
+
+    <!-- Tabla de Tripulación -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+      <table class="w-full text-sm text-left text-slate-500">
+        <thead class="text-xs text-slate-700 uppercase bg-slate-50">
+        <tr>
+          <th class="px-6 py-3">ID Empleado</th>
+          <th class="px-6 py-3">Nombre Completo</th>
+          <th class="px-6 py-3">Rol</th>
+          <th class="px-6 py-3">BaseModel</th>
+          <th class="px-6 py-3">Teléfono</th>
+          <th class="px-6 py-3">Estado</th>
+          <th class="px-6 py-3 text-right">Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let miembro of tripulacion" class="bg-white border-b hover:bg-slate-50">
+          <td class="px-6 py-4 font-medium text-slate-900">{{ miembro.id }}</td>
+          <td class="px-6 py-4">{{ miembro.nombre }}</td>
+          <td class="px-6 py-4">{{ miembro.rol }}</td>
+          <td class="px-6 py-4">{{ miembro.base }}</td>
+          <td class="px-6 py-4">{{ miembro.telefono }}</td>
+          <td class="px-6 py-4">
+              <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium"
+                    [ngClass]="{
+                      'bg-green-100 text-green-800': miembro.estado==='Activo',
+                      'bg-red-100 text-red-800': miembro.estado==='Inactivo',
+                      'bg-yellow-100 text-yellow-800': miembro.estado==='En espera'
+                    }">
+                <span class="size-2 rounded-full"
+                      [ngClass]="{
+                        'bg-green-500': miembro.estado==='Activo',
+                        'bg-red-500': miembro.estado==='Inactivo',
+                        'bg-yellow-500': miembro.estado==='En espera'
+                      }"></span>
+                {{ miembro.estado }}
+              </span>
+          </td>
+          <td class="px-6 py-4 text-right">
+            <div class="flex justify-end gap-2">
+              <button class="p-2 text-slate-500 hover:text-primary rounded-lg hover:bg-primary/10">
+                <span class="material-symbols-outlined text-base">edit</span>
+              </button>
+              <button class="p-2 text-slate-500 hover:text-red-500 rounded-lg hover:bg-red-500/10">
+                <span class="material-symbols-outlined text-base">delete</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <nav class="flex items-center justify-between p-4">
+      <span class="text-sm text-slate-500">
+        Mostrando <span class="font-semibold text-slate-900">1-5</span> de <span class="font-semibold text-slate-900">100</span>
+      </span>
+      <ul class="inline-flex items-center -space-x-px">
+        <li>
+          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 rounded-l-lg hover:bg-slate-100 hover:text-slate-700" href="#">Anterior</a>
+        </li>
+        <li>
+          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 hover:bg-slate-100 hover:text-slate-700" href="#">1</a>
+        </li>
+        <li>
+          <a aria-current="page" class="px-3 h-8 flex items-center justify-center text-primary bg-primary/10 border border-primary hover:bg-primary/20 hover:text-primary" href="#">2</a>
+        </li>
+        <li>
+          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 hover:bg-slate-100 hover:text-slate-700" href="#">3</a>
+        </li>
+        <li>
+          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 rounded-r-lg hover:bg-slate-100 hover:text-slate-700" href="#">Siguiente</a>
+        </li>
+      </ul>
+    </nav>
+
+  </div>
+</main>
+~~~
