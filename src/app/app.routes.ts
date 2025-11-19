@@ -26,7 +26,7 @@ export const routes: Routes = [
   {path: 'reset-password', component: ResetPasswordComponent, ...canActivate(()=>redirectLoggedInTo(['main']))},
   {
     path: 'register',
-    component: RegistrarUsuarioComponent, ...canActivate(()=> redirectUnauthorizedTo(['']))
+    component: RegistrarUsuarioComponent
   },
 
   {

@@ -54,7 +54,7 @@
           <select formControlName="base_codigo" id="base_codigo"
                   class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3">
             <option value="">Seleccionar base</option>
-            <option *ngFor="let base of bases" [value]="base.base_codigo"
+            <option *ngForngn="let base of bases" [value]="base.base_codigo"
                     [selected]="base.base_codigo === avionForm.get('base_codigo')?.value">
               {{ base.nombre }}
             </option>

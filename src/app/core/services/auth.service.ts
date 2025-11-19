@@ -1,22 +1,26 @@
 import {inject, Injectable} from '@angular/core';
-import {
+import { inMemoryPersistence,
   Auth,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
+  createUserWithEmailAndPassword, getAuth,
+  sendPasswordResetEmail, setPersistence,
   signInWithEmailAndPassword,
   signOut
 } from '@angular/fire/auth';
+import {getApp} from '@angular/fire/app';
+import {Router} from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private auth = inject(Auth);
+  private auxauth = getAuth(getApp());
 
 
-  register({ email, password }: any) {
+  async register({ email, password }: any) {
+    await setPersistence(this.auth, inMemoryPersistence);
 
-    return createUserWithEmailAndPassword(this.auth, email, password);
+    return createUserWithEmailAndPassword(this.auxauth, email, password);
   }
 
   login({ email, password }: any) {

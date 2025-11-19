@@ -1,146 +1,106 @@
-<!-- Mantiene el patrón del login -->
-<div class="relative flex h-auto min-h-screen w-full flex-col bg-gray-100 overflow-x-hidden">
-  <main class="px-4 sm:px-6 lg:px-8 py-8 flex flex-1 justify-center">
-    <div class="flex flex-col w-full max-w-4xl flex-1 gap-8">
+<main class="px-6 sm:px-8 lg:px-12 py-10 flex flex-1 justify-center bg-white-50">
+  <div class="flex flex-col w-full max-w-2xl gap-8">
 
-      <!-- Encabezado -->
-      <div>
-        <p class="text-gray-800 text-3xl font-extrabold leading-tight">Registrar Nuevo Usuario</p>
-        <p class="text-gray-500">Completa el formulario para añadir un nuevo usuario al sistema.</p>
+
+
+    <!-- Form container -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-md">
+      <div class="flex flex-col gap-1 mb-6">
+
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+             stroke-width="1.5" stroke="#2563eb" class="w-12 h-12 mb-2">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M2.25 12l8.954-8.955c.44-.439 1.15-.439 1.59 0L21.75 12M4.5 9.75v10.5a1.5 1.5 0 001.5 1.5h3.75v-6.75a.75.75 0 01.75-.75h3a.75.75 0 01.75.75V21h3.75a1.5 1.5 0 001.5-1.5V9.75" />
+        </svg>
+        <p class="text-gray-900 text-2xl font-bold leading-tight tracking-[-0.015em]">
+          Crear un nuevo usuario
+        </p>
+        <p class="text-gray-500 text-base font-normal leading-normal">
+          Completa el formulario para registrar un nuevo usuario en el sistema.
+        </p>
       </div>
 
-      <!-- Formulario -->
-      <div class="bg-white p-6 sm:p-8 rounded-xl border border-gray-200 shadow-xl">
-        <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
+      <form [formGroup]="userForm" (ngSubmit)="submitForm()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-6">
 
-          <!-- Nombre -->
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Nombre Completo</label>
-            <input
-              formControlName="nombre"
-              type="text"
-              placeholder="Ej: Juan Pérez"
-              class="form-input w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700 placeholder:text-gray-400"
-            />
-          </div>
+        <!-- Nombre -->
+        <div class="md:col-span-2">
+          <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre<span class="text-danger">*</span></label>
+          <input id="nombre" formControlName="nombre" type="text" placeholder="Ej: Juan Pérez"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+          <p *ngIf="userForm.get('nombre')?.touched && userForm.get('nombre')?.invalid" class="text-xs text-red-600 mt-1">El nombre es obligatorio.</p>
+        </div>
 
-          <!-- Tipo -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Tipo de Usuario</label>
-            <select
-              formControlName="tipo"
-              (change)="onTipoChange($event)"
-              class="form-select w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700"
-            >
-              <option value="">Seleccionar tipo</option>
-              <option value="PILOTO">Piloto</option>
-              <option value="MIEMBRO">Miembro</option>
-              <option value="ADMIN">Administrador</option>
-            </select>
-          </div>
+        <!-- Email -->
+        <div class="md:col-span-2">
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico<span class="text-danger">*</span></label>
+          <input id="email" formControlName="email" type="email" placeholder="ejemplo@correo.com"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+          <p *ngIf="userForm.get('email')?.touched && userForm.get('email')?.invalid" class="text-xs text-red-600 mt-1">El correo es obligatorio y debe ser válido.</p>
+        </div>
 
-          <!-- Horas de vuelo -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Horas de Vuelo</label>
-            <input
-              formControlName="horasVuelo"
-              type="number"
-              placeholder="Solo para pilotos"
-              class="form-input w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700 placeholder:text-gray-400 disabled:bg-gray-100 disabled:cursor-not-allowed"
-            />
-          </div>
-
-          <!-- BaseModel -->
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">BaseModel</label>
-            <select
-              formControlName="base"
-              class="form-select w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700"
-            >
-              <option value="">Asignar a una base</option>
-              <option value="MAD">Madrid (MAD)</option>
-              <option value="BCN">Barcelona (BCN)</option>
-              <option value="PMI">Palma de Mallorca (PMI)</option>
-              <option value="AGP">Málaga (AGP)</option>
-            </select>
-          </div>
-
-          <!-- Correo -->
-          <div class="md:col-span-2 border-t border-gray-200 mt-2"></div>
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Correo Electrónico</label>
-            <input
-              formControlName="email"
-              type="email"
-              placeholder="ejemplo@correo.com"
-              class="form-input w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 text-gray-700 placeholder:text-gray-400"
-            />
-          </div>
-
-          <!-- Contraseña -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Contraseña</label>
-            <div class="relative">
-              <input
-                [type]="passwordVisible ? 'text' : 'password'"
-                formControlName="password"
-                placeholder="Introduce la contraseña"
-                class="form-input w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 pr-10 text-gray-700 placeholder:text-gray-400"
-              />
-              <button
-                type="button"
-                (click)="togglePassword()"
-                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-              >
-                <span class="material-symbols-outlined text-xl">
-                  {{ passwordVisible ? 'visibility' : 'visibility_off' }}
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Confirmar contraseña -->
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1.5">Confirmar Contraseña</label>
-            <div class="relative">
-              <input
-                [type]="confirmPasswordVisible ? 'text' : 'password'"
-                formControlName="confirmPassword"
-                placeholder="Repite la contraseña"
-                class="form-input w-full rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 p-3 pr-10 text-gray-700 placeholder:text-gray-400"
-              />
-              <button
-                type="button"
-                (click)="toggleConfirmPassword()"
-                class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-              >
-                <span class="material-symbols-outlined text-xl">
-                  {{ confirmPasswordVisible ? 'visibility' : 'visibility_off' }}
-                </span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Botones -->
-          <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-gray-200 mt-2">
-            <button
-              type="button"
-              class="bg-gray-100 text-gray-700 hover:bg-gray-200 px-4 py-2 rounded-lg font-semibold transition"
-            >
-              Cancelar
-            </button>
-
-            <button
-              type="submit"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold flex items-center gap-2 transition"
-            >
-              <span class="material-symbols-outlined text-lg">save</span>
-              Guardar Usuario
+        <!-- Contraseña -->
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Contraseña</label>
+          <div class="relative">
+            <input formControlName="password" [type]="showPassword ? 'text' : 'password'" id="password"
+                   class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3 pr-10"/>
+            <button type="button" (click)="toggleShowPassword()"
+                    class="absolute inset-y-0 right-0 flex items-center pr-2 text-gray-400 hover:text-gray-600 transition">
+              <!-- Heroicon Eye / Eye Off -->
+              <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.477 0 8.268 2.943 9.542 7-1.274 4.057-5.065 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+              </svg>
+              <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                   viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M13.875 18.825A10.05 10.05 0 0112 19c-4.477 0-8.268-2.943-9.542-7a10.06 10.06 0 012.224-3.486m1.75-1.75A9.953 9.953 0 0112 5c4.477 0 8.268 2.943 9.542 7a10.06 10.06 0 01-1.662 2.671M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M3 3l18 18"/>
+              </svg>
             </button>
           </div>
+          <!-- Indicador de fuerza -->
+          <div class="mt-2">
+            <div class="flex justify-between items-center mb-1">
+              <p class="text-xs font-medium text-gray-500">Fortaleza</p>
+              <p class="text-xs font-bold" [ngClass]="passwordStrengthClass">{{ passwordStrengthLabel }}</p>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-1.5">
+              <div class="h-1.5 rounded-full transition-all duration-300" [ngStyle]="{width: passwordStrength+'%', backgroundColor: passwordStrengthColor}"></div>
+            </div>
+          </div>
+        </div>
 
-        </form>
-      </div>
+        <!-- Confirmar Contraseña -->
+        <div>
+          <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirmar Contraseña</label>
+          <input formControlName="confirmPassword" id="confirmPassword" type="password"
+                 class="form-input block w-full rounded-lg border border-red-600 bg-white text-gray-900 text-sm focus:border-red-600 focus:ring-red-200 py-2 px-3"/>
+          <p *ngIf="userForm.get('confirmPassword')?.touched && userForm.get('confirmPassword')?.invalid" class="text-xs text-red-600 mt-1">
+            Las contraseñas no coinciden.
+          </p>
+        </div>
+
+        <!-- Botones -->
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-gray-200 mt-3">
+          <button type="button" (click)="cancel()" class="flex items-center justify-center h-10 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-bold">
+            Cancelar
+          </button>
+          <button type="submit" class="flex items-center justify-center h-10 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 gap-2 text-sm font-bold">
+            <!-- Heroicon Save -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+            Guardar Usuario
+          </button>
+        </div>
+
+      </form>
     </div>
-  </main>
-</div>
+  </div>
+</main>

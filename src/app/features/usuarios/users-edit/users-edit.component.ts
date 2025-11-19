@@ -6,6 +6,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AvionService} from '../../../core/services/avion.service';
 import {Avion} from '../../../core/models/base_avion/avion.model';
 import {NgForOf, NgIf} from '@angular/common';
+import {Rol} from '../../../core/models/Usuarios/rol.model';
+import {UserService} from '../../../core/services/user.service';
+import {Usuario, UsuarioInputDTO} from '../../../core/models/Usuarios/usuario.model';
+import {RolService} from '../../../core/services/rol.service';
 
 
 
@@ -21,75 +25,73 @@ import {NgForOf, NgIf} from '@angular/common';
   styleUrl: './users-edit.component.css'
 })
 export class UsersEditComponent {
-  avionForm!: FormGroup;
+  userForm!: FormGroup;
+  roles: Rol[] = [];
   bases: Base[] = [];
-  avionId!: number;
+  usuarioId!: number;
 
   constructor(
     private fb: FormBuilder,
+    private usuarioService: UserService,
+    private rolService: RolService,
     private baseService: BaseService,
-    private avionService: AvionService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.avionId = Number(this.route.snapshot.paramMap.get('id'));
+    this.usuarioId = Number(this.route.snapshot.paramMap.get('id'));
 
-    this.avionForm = this.fb.group({
-      tipo: ['', Validators.required],
-      modelo: ['', Validators.required],
-      fabricante: ['', Validators.required],
-      capacidad: [null],
-      anio_fabricacion: [null],
+    this.userForm = this.fb.group({
+      nombre: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      rol_id: ['', Validators.required],
       base_codigo: ['', Validators.required],
-      horas_vuelo_totales: [0, Validators.required]
+      persona_codigo: [{ value: '', disabled: true }],
+      activo: [true]
     });
 
+    this.loadRoles();
     this.loadBases();
-    this.loadAvion();
+    this.loadUsuario();
+  }
+
+  loadRoles() {
+    this.rolService.getRoles().subscribe(roles => this.roles = roles);
   }
 
   loadBases() {
-    this.baseService.getBases().subscribe({
-      next: (bases) => this.bases = bases,
-      error: (err) => console.error('Error cargando bases', err)
-    });
+    this.baseService.getBases().subscribe(bases => this.bases = bases);
   }
 
-  loadAvion() {
-    this.avionService.getAvionById(this.avionId).subscribe({
-      next: (avion: Avion | null) => {
-        if (!avion) return;
-        this.avionForm.patchValue({
-          tipo: avion.tipo,
-          modelo: avion.modelo,
-          fabricante: avion.fabricante,
-          capacidad: avion.capacidad,
-          anio_fabricacion: avion.anio_fabricacion,
-          base_codigo: avion.base_codigo,
-          horas_vuelo_totales: avion.horas_vuelo_totales
-        });
-      },
-      error: (err) => console.error('Error cargando avión', err)
+  loadUsuario() {
+    this.usuarioService.getUserById(this.usuarioId).subscribe((user: Usuario) => {
+      this.userForm.patchValue({
+        nombre: user.nombre,
+        email: user.email,
+        rol_id: user.rol?.rol_id,
+        base_codigo: user.base_codigo,
+        persona_codigo: user.persona_codigo,
+        activo: user.activo
+      });
     });
   }
-
 
   submitForm() {
-    if (this.avionForm.invalid) {
-      this.avionForm.markAllAsTouched();
+    if (this.userForm.invalid) {
+      this.userForm.markAllAsTouched();
       return;
     }
-    const avion: Avion = this.avionForm.getRawValue();
-    this.avionService.updateAvion(avion, this.avionId).subscribe({
-      next: () => this.router.navigate(['/dashboard/aviones']),
-      error: (err) => console.error('Error actualizando avión', err)
+
+    const dto = new UsuarioInputDTO(this.userForm.getRawValue());
+
+    this.usuarioService.updateUser(dto, this.usuarioId).subscribe({
+      next: () => this.router.navigate(['/dashboard/usuarios']),
+      error: err => console.error('Error actualizando usuario', err)
     });
   }
 
   cancel() {
-    this.router.navigate(['/dashboard/aviones']);
+    this.router.navigate(['/dashboard/usuarios']);
   }
-
 }
