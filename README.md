@@ -31,7 +31,7 @@ Sigue estos pasos para instalar y ejecutar el proyecto localmente.
 ### 1\. Clonar el repositorio
 
 ```bash
-git clone <https://github.com/BalerionFenix/aerolinea-web.git>
+gh repo clone BalerionFenix/aerolinea-web
 cd AerolineaWeb
 ```
 
