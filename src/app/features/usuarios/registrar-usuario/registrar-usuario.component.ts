@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {AuthService} from '../../../core/services/auth.service';
 import {NgClass, NgIf, NgStyle} from '@angular/common';
 import {Router} from '@angular/router';
-import {UsuarioInputDTO} from '../../../core/models/Usuarios/usuario.model';
+import {AuthService} from '../../../core/services/auth.service';
 import {UserService} from '../../../core/services/user.service';
+import {UsuarioInputDTO} from '../../../core/models/Usuarios/usuario.model';
 
 @Component({
   selector: 'app-registrar-usuario',
@@ -19,6 +19,7 @@ import {UserService} from '../../../core/services/user.service';
 })
 export class RegistrarUsuarioComponent {
 
+
   userForm!: FormGroup;
   showPassword = false;
   showConfirmPassword = false;
@@ -27,8 +28,6 @@ export class RegistrarUsuarioComponent {
   passwordStrengthLabel = 'Débil';
   passwordStrengthColor = '#ffc107';
   passwordStrengthClass = 'text-warning';
-
-  firebaseError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -95,58 +94,40 @@ export class RegistrarUsuarioComponent {
   }
 
   submitForm() {
-    this.firebaseError = null;
-
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
       return;
     }
 
     const formValue = { ...this.userForm.value, rol_id: 2 };
+    const dto = new UsuarioInputDTO(formValue);
 
-    this.authService.register(formValue)
-      .then(firebaseUser => {
-        console.log('Usuario registrado en Firebase:', firebaseUser);
+    // Primero intentamos crear el usuario en el backend
+    this.userService.createUser(dto).subscribe({
+      next: resp => {
+        console.log('Usuario guardado en backend:', resp);
 
-        const dto = new UsuarioInputDTO(formValue);
-
-        this.userService.createUser(dto).subscribe({
-          next: resp => {
-            console.log('Usuario guardado en backend:', resp);
+        // Si backend funciona, registramos en Firebase
+        this.authService.register(formValue)
+          .then(firebaseUser => {
+            console.log('Usuario registrado en Firebase:', firebaseUser);
             alert('Usuario creado correctamente. Por favor inicia sesión.');
+            this.router.navigate(['/login']);
+          })
+          .catch(firebaseErr => {
+            console.error('Error registrando usuario en Firebase:', firebaseErr);
+            alert('Usuario creado en el sistema pero NO en Firebase. Contacta soporte.');
+          });
 
-            // Desloguear por si quedó logueado
-            this.authService.logout().finally(() => {
-              this.router.navigate(['/login']);
-            });
-          },
-          error: err => {
-            console.error('Error guardando usuario en backend:', err);
-            alert('No se pudo guardar el usuario en el sistema. Intenta nuevamente.');
-          }
-        });
-      })
-      .catch(err => {
-        console.error('Error registrando usuario en Firebase:', err);
-        // Alert según el tipo de error
-        switch (err.code) {
-          case 'auth/email-already-in-use':
-            alert('Este correo ya está registrado. Intenta iniciar sesión.');
-            break;
-          case 'auth/invalid-email':
-            alert('Correo inválido.');
-            break;
-          case 'auth/weak-password':
-            alert('La contraseña es demasiado débil.');
-            break;
-          default:
-            alert('No se pudo registrar el usuario. Verifica tus datos o intenta más tarde.');
-        }
-      });
+      },
+      error: err => {
+        console.error('Error guardando usuario en backend:', err);
+        alert('No se pudo guardar el usuario en el sistema. Intenta nuevamente.');
+      }
+    });
   }
 
   cancel(): void {
     this.router.navigate(['/login']);
   }
-
 }
