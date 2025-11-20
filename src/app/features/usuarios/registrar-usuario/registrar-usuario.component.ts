@@ -20,7 +20,6 @@ import {UserService} from '../../../core/services/user.service';
 export class RegistrarUsuarioComponent {
 
   userForm!: FormGroup;
-
   showPassword = false;
   showConfirmPassword = false;
 
@@ -28,6 +27,8 @@ export class RegistrarUsuarioComponent {
   passwordStrengthLabel = 'Débil';
   passwordStrengthColor = '#ffc107';
   passwordStrengthClass = 'text-warning';
+
+  firebaseError: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -40,15 +41,14 @@ export class RegistrarUsuarioComponent {
     this.userForm = this.fb.group({
       nombre: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-
       password: ['', [Validators.required, Validators.minLength(6)]],
       confirmPassword: ['', Validators.required]
     });
 
-    // Evaluar fuerza de contraseña en tiempo real
+    // Evaluar fuerza de contraseña
     this.userForm.get('password')?.valueChanges.subscribe(value => this.evaluatePasswordStrength(value));
 
-    // Validar confirmPassword en tiempo real
+    // Validar confirmPassword
     this.userForm.get('confirmPassword')?.valueChanges.subscribe(() => {
       const password = this.userForm.get('password')?.value;
       const confirm = this.userForm.get('confirmPassword')?.value;
@@ -66,7 +66,7 @@ export class RegistrarUsuarioComponent {
 
   evaluatePasswordStrength(password: string) {
     let score = 0;
-    if (!password) { score = 0; }
+    if (!password) score = 0;
     else {
       if (password.length >= 6) score += 25;
       if (/[A-Z]/.test(password)) score += 25;
@@ -95,43 +95,57 @@ export class RegistrarUsuarioComponent {
   }
 
   submitForm() {
+    this.firebaseError = null;
+
     if (this.userForm.invalid) {
       this.userForm.markAllAsTouched();
-      alert('Por favor completa todos los campos correctamente.');
       return;
     }
 
     const formValue = { ...this.userForm.value, rol_id: 2 };
 
-    // Registrar en Firebase
     this.authService.register(formValue)
       .then(firebaseUser => {
-        console.log('Usuario autenticado en Firebase:', firebaseUser);
+        console.log('Usuario registrado en Firebase:', firebaseUser);
 
-        // Crear DTO para backend
         const dto = new UsuarioInputDTO(formValue);
 
         this.userService.createUser(dto).subscribe({
           next: resp => {
-            console.log('Usuario guardado correctamente en backend:', resp);
+            console.log('Usuario guardado en backend:', resp);
             alert('Usuario creado correctamente. Por favor inicia sesión.');
-            this.router.navigate(['/login']);
+
+            // Desloguear por si quedó logueado
+            this.authService.logout().finally(() => {
+              this.router.navigate(['/login']);
+            });
           },
           error: err => {
             console.error('Error guardando usuario en backend:', err);
             alert('No se pudo guardar el usuario en el sistema. Intenta nuevamente.');
           }
         });
-
       })
       .catch(err => {
-        console.error('Error autenticando en Firebase:', err);
-        alert('No se pudo registrar el usuario. Verifica tus datos o intenta más tarde.');
+        console.error('Error registrando usuario en Firebase:', err);
+        // Alert según el tipo de error
+        switch (err.code) {
+          case 'auth/email-already-in-use':
+            alert('Este correo ya está registrado. Intenta iniciar sesión.');
+            break;
+          case 'auth/invalid-email':
+            alert('Correo inválido.');
+            break;
+          case 'auth/weak-password':
+            alert('La contraseña es demasiado débil.');
+            break;
+          default:
+            alert('No se pudo registrar el usuario. Verifica tus datos o intenta más tarde.');
+        }
       });
   }
 
   cancel(): void {
-    // Redirigir al login
     this.router.navigate(['/login']);
   }
 

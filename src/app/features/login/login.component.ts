@@ -41,14 +41,32 @@ export class LoginComponent {
     console.log('Datos del login:', this.loginForm.value);
 
     try {
-      await this.Auth.login(this.loginForm.value);
-      alert('Inicio de sesión exitoso.');
-      this.router.navigate(['/dashboard']);
+      const result = await this.Auth.login(this.loginForm.value);
+      const email = result?.user?.email;
+
+      if (!email) {
+        alert('No se pudo obtener el correo del usuario.');
+        return;
+      }
+
+      const user = await firstValueFrom(this.userService.getUsuarioByEmail(email));
+
+      if (user && user.email === email) {
+        console.log('Usuario permitido:', user);
+        alert('Inicio de sesión exitoso.');
+        await this.router.navigate(['/dashboard']);
+      } else {
+        console.error('Email no permitido:', email);
+        alert('Tu correo no tiene acceso.');
+        await this.googleAuth.logoutWithGoogle();
+      }
+
     } catch (error: any) {
       console.error('Error en login:', error);
       alert('No se pudo iniciar sesión. Verifica tus credenciales.');
     }
   }
+
 
   async loginWithGoogle(): Promise<void> {
     try {

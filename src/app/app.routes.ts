@@ -22,8 +22,10 @@ import {AvionesEditComponent} from './features/aviones/aviones-edit/aviones-edit
 export const routes: Routes = [
 
   {path: '', component: LoginComponent, },
-  {path: 'login', component: LoginComponent, ...canActivate(()=>redirectLoggedInTo(['main']))},
-  {path: 'reset-password', component: ResetPasswordComponent, ...canActivate(()=>redirectLoggedInTo(['main']))},
+  { path: 'login', component: LoginComponent, ...canActivate(() => redirectLoggedInTo(['dashboard'])) },
+  { path: 'reset-password', component: ResetPasswordComponent, ...canActivate(() => redirectLoggedInTo(['dashboard'])) },
+
+
   {
     path: 'register',
     component: RegistrarUsuarioComponent

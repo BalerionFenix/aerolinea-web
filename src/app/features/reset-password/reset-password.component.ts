@@ -29,18 +29,29 @@ export class ResetPasswordComponent {
     if (this.resetForm.invalid) return;
 
     const email = this.resetForm.value.email;
+    this.isLoading = true;
+    this.message = null;
 
     try {
       await this.auth.resetPasswordInit(email);
-      this.message = `Si el correo existe, recibirás un email de restablecimiento.`;
+
+      // Mostrar aviso
+      alert('Revisa tu correo, incluyendo la carpeta de spam.');
+
+      // Redirigir al login
+      await this.router.navigate(['/login']);
+
     } catch (error: any) {
       if (error.code === 'auth/too-many-requests') {
         this.message = 'Has enviado demasiadas solicitudes. Intenta más tarde.';
       } else {
         this.message = 'Ocurrió un error al enviar el correo.';
       }
+    } finally {
+      this.isLoading = false;
     }
   }
+
 
 
 

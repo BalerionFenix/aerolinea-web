@@ -5,11 +5,12 @@ import {Base} from '../../../core/models/base_avion/base.model';
 import {BaseService} from '../../../core/services/base.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AvionService} from '../../../core/services/avion.service';
+import {NgForOf} from '@angular/common';
 
 @Component({
   selector: 'app-aviones-edit',
   imports: [
-    ReactiveFormsModule,
+    ReactiveFormsModule, NgForOf
   ],
   templateUrl: './aviones-edit.component.html',
   styleUrl: './aviones-edit.component.css'
