@@ -41,11 +41,9 @@ cd AerolineaWeb
 npm install
 ```
 
-### 3\. Configuración de Firebase
 
-Es **obligatorio** actualizar la configuración de Firebase en el archivo `app.config.ts` con tus propias credenciales del proyecto de Firebase.
 
-### 4\. Requisito del Backend
+### 3\. Requisito del Backend
 
 Asegúrate de que el backend `aerolinea_backend` esté **corriendo y accesible** para que la aplicación pueda realizar las peticiones CRUD.
 
