@@ -1,0 +1,178 @@
+<div class="w-full max-w-6xl mx-auto p-6">
+  <!-- Título -->
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-slate-900">Editar Vuelo</h1>
+    <p class="text-sm text-slate-500">Actualiza la información del vuelo.</p>
+  </div>
+
+  <form [formGroup]="flightForm" (ngSubmit)="save()" class="flex flex-col gap-8">
+
+    <!-- ========== DETALLES DEL VUELO ========== -->
+    <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <!-- HeroIcon -->
+        <svg class="size-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8V4m0 0L8 8m4-4l4 4m0 8v4m0 0l4-4m-4 4l-4-4m-8-4H4m0 0l4 4m-4-4l4-4"/>
+        </svg>
+        Detalles del Vuelo
+      </h2>
+
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Número de vuelo -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Número de Vuelo</label>
+          <input
+            type="text"
+            formControlName="numeroVuelo"
+            readonly
+            class="form-input mt-1 w-full rounded-lg bg-slate-100 text-slate-500"
+          />
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Estado</label>
+          <select
+            formControlName="estado"
+            class="form-select mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm focus:border-primary focus:ring-primary"
+          >
+            <option>Programado</option>
+            <option>En Ruta</option>
+            <option>A Tiempo</option>
+            <option>Retrasado</option>
+            <option>Cancelado</option>
+          </select>
+        </div>
+
+        <!-- Origen -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Origen</label>
+          <input
+            type="text"
+            formControlName="origen"
+            class="form-input mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm"
+          />
+        </div>
+
+        <!-- Destino -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Destino</label>
+          <input
+            type="text"
+            formControlName="destino"
+            class="form-input mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm"
+          />
+          <p *ngIf="flightForm.hasError('sameRoute')" class="text-xs text-red-600 mt-1">
+            El destino no puede ser igual al origen.
+          </p>
+        </div>
+
+        <!-- Fecha -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Fecha</label>
+          <input
+            type="date"
+            formControlName="fecha"
+            class="form-input mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm"
+          />
+        </div>
+
+        <!-- Hora -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Hora</label>
+          <input
+            type="time"
+            formControlName="hora"
+            class="form-input mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm"
+          />
+        </div>
+
+        <!-- Avión -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Avión</label>
+          <select
+            formControlName="avion"
+            class="form-select mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm"
+          >
+            <option *ngFor="let a of aviones" [value]="a.avion_codigo">{{ a.modelo }}</option>
+          </select>
+
+        </div>
+
+        <!-- Piloto -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Piloto</label>
+          <select
+            formControlName="piloto"
+            class="form-select mt-1 w-full rounded-lg border-slate-300 bg-white shadow-sm"
+          >
+            <option *ngFor="let p of pilotos" [value]="p">{{ p }}</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DATOS OPCIONALES ========== -->
+    <section class="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+        <!-- HeroIcon -->
+        <svg class="size-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 6v6l4 2"/>
+        </svg>
+        Datos Opcionales
+      </h2>
+
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Hora Salida Real</label>
+          <input type="time" formControlName="horaSalidaReal" class="form-input mt-1 w-full rounded-lg">
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Hora Llegada Real</label>
+          <input type="time" formControlName="horaLlegadaReal" class="form-input mt-1 w-full rounded-lg">
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-slate-700">Duración (min)</label>
+          <input type="number" formControlName="duracion_vuelo" class="form-input mt-1 w-full rounded-lg">
+        </div>
+
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium text-slate-700">Observaciones</label>
+          <textarea formControlName="observaciones" rows="3"
+                    class="form-textarea mt-1 w-full rounded-lg border-slate-300"></textarea>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Botones -->
+    <div class="flex justify-end gap-4">
+      <button
+        type="button"
+        class="px-4 h-10 border border-slate-300 rounded-lg bg-white text-slate-700 font-semibold shadow hover:bg-slate-50"
+        (click)="cancel()">
+        Cancelar
+      </button>
+
+      <button
+        type="submit"
+        class="px-4 h-10 rounded-lg bg-blue-600 text-white font-bold shadow hover:bg-blue-700 flex items-center gap-2">
+
+        <!-- HeroIcon Save -->
+        <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                d="M5 13l4 4L19 7"/>
+        </svg>
+
+        Guardar Cambios
+      </button>
+    </div>
+
+  </form>
+</div>

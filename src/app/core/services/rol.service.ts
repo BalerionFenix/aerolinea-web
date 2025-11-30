@@ -9,7 +9,7 @@ import {Rol} from '../models/Usuarios/rol.model';
 })
 export class RolService {
 
-  private baseUrl = 'http://192.168.0.6:4000/api/rol';
+  private baseUrl = 'http://localhost:4000/api/rol';
 
 
   constructor(private http: HttpClient) { }

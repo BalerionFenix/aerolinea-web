@@ -8,7 +8,7 @@ import {Usuario, UsuarioInputDTO} from '../models/Usuarios/usuario.model';
 })
 export class UserService {
 
-  private baseUrl = 'http://192.168.0.6:4000/api/usuario';
+  private baseUrl = 'http://localhost:4000/api/usuario';
 
 
 

@@ -8,7 +8,7 @@ import {catchError, map, Observable, of} from 'rxjs';
 })
 export class AvionService {
 
-  private baseUrl = 'http://192.168.0.6:4000/api/avion';
+  private baseUrl = 'http://localhost:4000/api/avion';
 
   constructor(private http: HttpClient) { }
 

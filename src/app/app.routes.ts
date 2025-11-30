@@ -17,6 +17,9 @@ import {BasesEditComponent} from './features/base/bases-edit/bases-edit.componen
 import {AvionesManagementComponent} from './features/aviones/aviones-management/aviones-management.component';
 import {AvionesCreateComponent} from './features/aviones/aviones-create/aviones-create.component';
 import {AvionesEditComponent} from './features/aviones/aviones-edit/aviones-edit.component';
+import {FlightManagementComponent} from './features/vuelos/flight-management/flight-management.component';
+import {FlightCreateComponent} from './features/vuelos/flight-create/flight-create.component';
+import {FlightEditComponent} from './features/vuelos/flight-edit/flight-edit.component';
 
 
 export const routes: Routes = [
@@ -50,7 +53,15 @@ export const routes: Routes = [
       },
       {
         path: 'vuelos',
-        component: VuelosComponent
+        component: FlightManagementComponent
+      },
+      {
+        path: 'vuelos/crear',
+        component: FlightCreateComponent
+      },
+      {
+        path: 'vuelos/editar/:id',
+        component: FlightEditComponent
       },
 
       {

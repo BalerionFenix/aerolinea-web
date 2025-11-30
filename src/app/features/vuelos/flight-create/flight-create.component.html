@@ -1,0 +1,126 @@
+<main class="flex w-full flex-col items-center p-4 sm:p-6">
+  <div class="w-full max-w-5xl">
+    <h1 class="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="size-7 text-primary" fill="none"
+           viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M15.75 16.5l-3-3-3 3m3-3V21m0-18v4.5m0 0l3 3m-3-3l-3 3" />
+      </svg>
+      Crear Nuevo Vuelo
+    </h1>
+
+    <form [formGroup]="vueloForm" (ngSubmit)="crearVuelo()" class="flex flex-col gap-6">
+
+      <!-- INFORMACIÓN PRINCIPAL -->
+      <div class="rounded-xl border border-slate-200 bg-white p-6">
+        <h2 class="text-lg font-semibold text-slate-900 mb-6 border-b border-slate-200 pb-4">
+          Información Principal del Vuelo
+        </h2>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+          <!-- Origen -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Origen *</label>
+            <input type="text" formControlName="origen"
+                   placeholder="Ej: Madrid"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <!-- Destino -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Destino *</label>
+            <input type="text" formControlName="destino"
+                   placeholder="Ej: Barcelona"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <!-- Fecha -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Fecha *</label>
+            <input type="date" formControlName="fecha"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <!-- Hora -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Hora *</label>
+            <input type="time" formControlName="hora"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <!-- Avión -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Avión Asignado *</label>
+            <select formControlName="avion_codigo"
+                    class="form-select w-full rounded-lg border-slate-300 bg-gray-50">
+              <option *ngFor="let avion of aviones" [value]="avion.avion_codigo">
+                {{ avion.modelo }} - {{ avion.fabricante }}
+              </option>
+
+
+            </select>
+          </div>
+
+          <!-- Piloto -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Piloto Asignado *</label>
+            <select formControlName="piloto_codigo"
+                    class="form-select w-full rounded-lg border-slate-300 bg-gray-50">
+              <option *ngFor="let piloto of pilotos" [value]="piloto.codigo">
+                {{ piloto.nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- DETALLES ADICIONALES -->
+      <div class="rounded-xl border border-slate-200 bg-white p-6">
+        <h2 class="text-lg font-semibold text-slate-900 mb-6 border-b border-slate-200 pb-4">
+          Detalles Adicionales (Opcional)
+        </h2>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Duración (minutos)</label>
+            <input type="number" formControlName="duracion_vuelo"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Hora Salida Real</label>
+            <input type="time" formControlName="hora_salida_real"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">Hora Llegada Real</label>
+            <input type="time" formControlName="hora_llegada_real"
+                   class="form-input w-full rounded-lg border-slate-300 bg-gray-50" />
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-slate-700 mb-1">Observaciones</label>
+            <textarea rows="4" formControlName="observaciones"
+                      class="form-textarea w-full rounded-lg border-slate-300 bg-gray-50"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTONES -->
+      <div class="flex justify-end gap-4">
+        <button type="button"
+                class="rounded-lg border border-slate-300 bg-white px-4 py-2 font-medium hover:bg-slate-100">
+          Cancelar
+        </button>
+
+        <button class="rounded-lg bg-blue-600 px-4 py-2 font-bold text-white hover:bg-blue-700">
+          Crear Vuelo
+        </button>
+      </div>
+
+    </form>
+  </div>
+</main>

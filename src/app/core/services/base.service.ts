@@ -8,7 +8,7 @@ import {Base, BaseInputDTO} from '../models/base_avion/base.model';
 })
 export class BaseService {
 
-  private baseUrl = 'http://192.168.0.6:4000/api/base';
+  private baseUrl = 'http://localhost:4000/api/base';
 
 
   constructor(private http: HttpClient) { }
