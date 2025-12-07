@@ -11,6 +11,8 @@
       "prefix": "app",
       "architect": {
         "build": {
+
+
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/aerolinea-web",
@@ -45,7 +47,14 @@
                   "maximumError": "8kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ]
             },
             "development": {
               "optimization": false,

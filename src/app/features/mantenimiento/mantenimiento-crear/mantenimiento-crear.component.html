@@ -1,0 +1,84 @@
+<main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+  <div class="max-w-3xl mx-auto flex flex-col gap-6">
+
+    <!-- Título -->
+    <div class="flex flex-wrap justify-between items-center gap-4">
+      <h1 class="text-3xl font-black text-slate-900">
+        Crear Nuevo Tipo de Mantenimiento
+      </h1>
+
+    </div>
+
+    <!-- Formulario -->
+    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+      <form class="space-y-6" [formGroup]="form" (ngSubmit)="crear()">
+
+        <!-- Tipo mantenimiento -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Tipo de Mantenimiento *</label>
+          <input type="number" formControlName="tipo_mantenimiento_id"
+                 placeholder="Ej: 1"
+                 class="input" />
+        </div>
+
+        <!-- Fecha programada -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Fecha Programada *</label>
+          <input type="date" formControlName="fecha_programada" class="input" />
+        </div>
+
+        <!-- Costo estimado -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Costo Estimado *</label>
+          <input type="number" formControlName="costo_estimado" class="input" />
+        </div>
+
+        <!-- Descripción -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Descripción</label>
+          <textarea rows="4" formControlName="descripcion" class="input"></textarea>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Estado *</label>
+          <select formControlName="estado" class="input">
+            <option value="programado">Programado</option>
+            <option value="en_proceso">En proceso</option>
+            <option value="completado">Completado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+        </div>
+
+        <!-- Personal asignado -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Personal Asignado</label>
+          <input type="text" formControlName="personal_asignado" class="input" />
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end gap-4 pt-6">
+          <button type="button"
+                  class="px-6 h-12 bg-white border border-slate-300 text-slate-700 rounded-lg font-bold hover:bg-slate-50 transition"
+                  (click)="cancelar()"
+            >
+            Cancelar
+          </button>
+
+          <button type="submit"
+            class="flex items-center gap-2 px-6 h-12 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition"
+            (click)="crear()"
+            >
+            <!-- Icono "+" -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+
+            Crear Mantenimiento
+          </button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</main>

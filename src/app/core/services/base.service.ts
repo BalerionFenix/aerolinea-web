@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, Observable, of} from 'rxjs';
 import {Base, BaseInputDTO} from '../models/base_avion/base.model';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class BaseService {
 
-  private baseUrl = 'http://192.168.0.6:4000/api/base';
+  private baseUrl = `${environment.apiUrl}/base`;
 
 
   constructor(private http: HttpClient) { }

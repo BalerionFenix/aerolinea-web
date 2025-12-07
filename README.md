@@ -72,6 +72,10 @@ Abre tu navegador en `http://localhost:4200`. La aplicación se recargará autom
 | `/dashboard/bases-aereas` | Gestión de bases aéreas (CRUD). | Autenticación + Rol |
 | `/dashboard/vuelos` | Gestión de vuelos. | Autenticación |
 | `/dashboard/tripulacion` | Gestión de tripulación. | Autenticación |
+| `/dashboard/mantenimiento` | Gestión general de mantenimientos (lista principal). | Autenticación + Rol |
+| `/dashboard/mantenimiento/detalle/:id` | Gestión general de mantenimientos (lista principal). | Autenticacion|
+| `/dashboard/mantenimiento/edit/:id` | Edición de un mantenimiento existente. | Autenticación |
+| `/dashboard/mantenimiento/crear` | Crear un nuevo mantenimiento. | Autenticación |
 | `/dashboard/panel-control` | Panel de control principal. | Autenticación |
 
 **Patrón de rutas CRUD:**
@@ -97,6 +101,7 @@ src/
 │ │ ├─ base/
 │ │ ├─ dashboard/
 │ │ ├─ login/
+│ │ ├─ mantenimiento/
 │ │ └─ pilotos/, tripulacion/, vuelos/ 
 │ ├─ app.config.ts # Configuración de la aplicación e inicialización de Firebase.
 │ ├─ app.routes.ts # **Routing** de Angular con guardas de acceso.

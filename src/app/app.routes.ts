@@ -6,6 +6,10 @@ import {DashboardComponent} from './features/dashboard/dashboard/dashboard.compo
 import {PanelControlComponent} from './features/dashboard/panel-control/panel-control.component';
 import {ResetPasswordComponent} from './features/reset-password/reset-password.component';
 import {PilotsComponent} from './features/pilots/pilots.component';
+import {MantenimientoDetalleComponent} from './features/mantenimiento/mantenimiento-detalle/mantenimiento-detalle.component';
+import {DetalleTipoMantenimientoComponent} from './features/mantenimiento/mantenimiento-management/mantenimiento-management.component';
+import {MantenimientoEditComponent} from './features/mantenimiento/mantenimiento-edit/mantenimiento-edit.component';
+import {MantenimientoCrearComponent} from './features/mantenimiento/mantenimiento-crear/mantenimiento-crear.component';
 import {TripulacionComponent} from './features/tripulacion/tripulacion.component';
 import {VuelosComponent} from './features/vuelos/vuelos.component';
 import {BasesAereasComponent} from './features/base/bases-aereas/bases-aereas.component';
@@ -65,7 +69,22 @@ export const routes: Routes = [
         path: 'bases-aereas/editar/:id',
         component: BasesEditComponent,
       },
-
+      {
+        path: 'mantenimiento',
+        component: DetalleTipoMantenimientoComponent,
+      },
+      {
+        path: 'mantenimiento/detalle/:id',
+        component: MantenimientoDetalleComponent,
+      },
+      {
+        path: 'mantenimiento/edit/:id',
+        component: MantenimientoEditComponent,
+      },
+      {
+        path: 'mantenimiento/crear',
+        component: MantenimientoCrearComponent,
+      },
       {
         path: 'usuarios',
         component: UsersManagementComponent,

@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Avion, AvionInputDTO} from '../models/base_avion/avion.model';
 import {catchError, map, Observable, of} from 'rxjs';
+import { environment } from '../../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AvionService {
 
-  private baseUrl = 'http://192.168.0.6:4000/api/avion';
+  private baseUrl = `${environment.apiUrl}/avion`;
 
   constructor(private http: HttpClient) { }
 
