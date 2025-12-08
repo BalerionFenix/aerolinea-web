@@ -3,30 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
-import { Mantenimiento, MantenimientoInputDTO as MantenimientoInputModel } from '../../core/models/mantenimiento/mantenimiento.models';
-
-// DTO del backend
-export interface MantenimientoDTO {
-  id: number;
-  tipo_mantenimiento_id: number;
-  fecha_programada: string;
-  estado: 'programado' | 'en_proceso' | 'completado' | 'cancelado';
-  costo_estimado?: number;
-  costo_real?: number;
-  descripcion?: string;
-  personal_asignado?: string;
-  createdAt?: string;
-  updatedAt?: string;
-}
-
-// Entrada para crear o actualizar (usando el DTO del modelo)
-export type MantenimientoInputDTO = MantenimientoInputModel;
-
-interface ApiResponse<T> {
-  success: boolean;
-  data: T;
-  message?: string;
-}
+import { 
+  Mantenimiento, 
+  MantenimientoInputDTO 
+} from '../../core/models/mantenimiento/mantenimiento.models';
 
 @Injectable({
   providedIn: 'root'
@@ -38,56 +18,38 @@ export class MantenimientoService {
   constructor(private http: HttpClient) {}
 
   // CREATE
-  createMantenimiento(data: MantenimientoInputDTO): Observable<Mantenimiento | null> {
-    const payload = {
-      ...data,
-      fecha_programada: data.fecha_programada instanceof Date
-        ? data.fecha_programada.toISOString().split('T')[0]
-        : data.fecha_programada
-    };
-
-    return this.http.post<ApiResponse<MantenimientoDTO>>(this.baseUrl, payload).pipe(
-      map(response => new Mantenimiento(response.data)),
-      catchError(error => {
-        console.error('Error al crear mantenimiento', error);
-        return of(null);
-      })
-    );
+  createMantenimiento(mantenimiento: MantenimientoInputDTO): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}`, mantenimiento);
   }
 
   // UPDATE
-  updateMantenimiento(data: MantenimientoInputDTO, id: number): Observable<Mantenimiento | null> {
-    const payload = {
-      ...data,
-      fecha_programada: data.fecha_programada instanceof Date
-        ? data.fecha_programada.toISOString().split('T')[0]
-        : data.fecha_programada
-    };
+  updateMantenimiento(id: number, mantenimiento: MantenimientoInputDTO): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/${id}`, mantenimiento);
+}
 
-    return this.http.put<ApiResponse<MantenimientoDTO>>(`${this.baseUrl}/${id}`, payload).pipe(
-      map(response => new Mantenimiento(response.data)),
-      catchError(error => {
-        console.error('Error al actualizar mantenimiento', error);
-        return of(null);
-      })
-    );
-  }
+  // GET ALL - Versión simplificada
+  getMantenimientos(page: number = 1, limit: number = 10): Observable<Mantenimiento[]> {
+  return this.http.get<any>(`${this.baseUrl}?pagina=${page}&limite=${limit}`).pipe(
+    map(response => {
+      const lista = response?.data?.mantenimientos ?? [];
+      return lista.map((item: any) => new Mantenimiento(item));
+    }),
+    catchError(error => {
+      console.error('Error al cargar mantenimientos:', error);
+      return of([]);
+    })
+  );
+}
 
-  // GET ALL
-  getMantenimientos(): Observable<Mantenimiento[]> {
-    return this.http.get<ApiResponse<MantenimientoDTO[]>>(this.baseUrl).pipe(
-      map(response => response.data.map(item => new Mantenimiento(item))),
-      catchError(error => {
-        console.error('Error al cargar mantenimientos', error);
-        return of([]);
-      })
-    );
-  }
 
   // GET BY ID
-  getMantenimientoById(id: number): Observable<Mantenimiento | null> {
-    return this.http.get<ApiResponse<MantenimientoDTO>>(`${this.baseUrl}/${id}`).pipe(
-      map(response => new Mantenimiento(response.data)),
+  getMantenimientoById(id: number): Observable<any> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.get<any>(url).pipe(
+      map(response => {
+        console.log('Mantenimiento recibido:', response);
+        return response;
+      }),
       catchError(error => {
         console.error('Error al obtener mantenimiento:', error);
         return of(null);
@@ -96,12 +58,16 @@ export class MantenimientoService {
   }
 
   // DELETE
-  deleteMantenimiento(id: number): Observable<boolean> {
-    return this.http.delete<ApiResponse<null>>(`${this.baseUrl}/${id}`).pipe(
-      map(response => response.success),
+  deleteMantenimiento(id: number): Observable<any> {
+    const url = `${this.baseUrl}/${id}`;
+    return this.http.delete(url).pipe(
+      map(response => {
+        console.log('Mantenimiento eliminado del servidor:', response);
+        return response;
+      }),
       catchError(error => {
-        console.error('Error al eliminar mantenimiento', error);
-        return of(false);
+        console.error('Error al eliminar mantenimiento:', error);
+        return of(null);
       })
     );
   }

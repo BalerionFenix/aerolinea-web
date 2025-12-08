@@ -4,9 +4,8 @@
     <!-- Título -->
     <div class="flex flex-wrap justify-between items-center gap-4">
       <h1 class="text-3xl font-black text-slate-900">
-        Crear Nuevo Tipo de Mantenimiento
+        Crear Nuevo Mantenimiento
       </h1>
-
     </div>
 
     <!-- Formulario -->
@@ -16,7 +15,21 @@
         <!-- Tipo mantenimiento -->
         <div>
           <label class="block text-sm font-medium text-slate-700">Tipo de Mantenimiento *</label>
-          <input type="number" formControlName="tipo_mantenimiento_id"
+          <select formControlName="tipo_mantenimiento_id" class="input">
+            <option value="" disabled selected>Seleccione un tipo</option>
+            <option *ngFor="let t of tiposMantenimiento" [value]="t.id">
+              {{ t.nombre }}
+            </option>
+          </select>
+        </div>
+
+        <!-- Aeronave -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Aeronave *</label>
+
+          <!-- Si aún no tienes el servicio, puedes editar esta sección luego -->
+          <input type="number"
+                 formControlName="aeronave_id"
                  placeholder="Ej: 1"
                  class="input" />
         </div>
@@ -27,10 +40,28 @@
           <input type="date" formControlName="fecha_programada" class="input" />
         </div>
 
+        <!-- Fecha inicio -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Fecha Inicio</label>
+          <input type="date" formControlName="fecha_inicio" class="input" />
+        </div>
+
+        <!-- Fecha fin -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Fecha Finalización</label>
+          <input type="date" formControlName="fecha_fin" class="input" />
+        </div>
+
         <!-- Costo estimado -->
         <div>
           <label class="block text-sm font-medium text-slate-700">Costo Estimado *</label>
           <input type="number" formControlName="costo_estimado" class="input" />
+        </div>
+
+        <!-- Costo real -->
+        <div>
+          <label class="block text-sm font-medium text-slate-700">Costo Real</label>
+          <input type="number" formControlName="costo_real" class="input" />
         </div>
 
         <!-- Descripción -->
@@ -60,15 +91,13 @@
         <div class="flex justify-end gap-4 pt-6">
           <button type="button"
                   class="px-6 h-12 bg-white border border-slate-300 text-slate-700 rounded-lg font-bold hover:bg-slate-50 transition"
-                  (click)="cancelar()"
-            >
+                  (click)="cancelar()">
             Cancelar
           </button>
 
           <button type="submit"
-            class="flex items-center gap-2 px-6 h-12 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition"
-            (click)="crear()"
-            >
+            class="flex items-center gap-2 px-6 h-12 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition">
+
             <!-- Icono "+" -->
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />

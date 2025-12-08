@@ -2,11 +2,10 @@ export class Mantenimiento {
 
   id: number;
   tipo_mantenimiento_id: number;
-
-  fecha_programada: Date;
-  fecha_inicio?: Date | null;
-  fecha_fin?: Date | null;
-
+  aeronave_id: string  | null;
+  fecha_programada: string;
+  fecha_inicio?: string | null;
+  fecha_fin?: string | null;
   costo_estimado: number;
   costo_real?: number | null;
 
@@ -21,7 +20,7 @@ export class Mantenimiento {
   constructor(data: any) {
     this.id = data.id;
     this.tipo_mantenimiento_id = data.tipo_mantenimiento_id;
-
+    this.aeronave_id=data.aeronave_id;
     this.fecha_programada = data.fecha_programada;
     this.fecha_inicio = data.fecha_inicio ?? null;
     this.fecha_fin = data.fecha_fin ?? null;
@@ -42,10 +41,10 @@ export class Mantenimiento {
 export class MantenimientoInputDTO {
 
   tipo_mantenimiento_id: number;
-
-  fecha_programada: Date;
-  fecha_inicio?: Date | null;
-  fecha_fin?: Date | null;
+  aeronave_id: string  | null;
+  fecha_programada: string | null;
+  fecha_inicio?: string | null;
+  fecha_fin?: string | null;
 
   costo_estimado: number;
   costo_real?: number | null;
@@ -57,7 +56,7 @@ export class MantenimientoInputDTO {
 
   constructor(data: any) {
     this.tipo_mantenimiento_id = data.tipo_mantenimiento_id;
-
+    this.aeronave_id=data.aeronave_id;
     this.fecha_programada = data.fecha_programada;
     this.fecha_inicio = data.fecha_inicio ?? null;
     this.fecha_fin = data.fecha_fin ?? null;

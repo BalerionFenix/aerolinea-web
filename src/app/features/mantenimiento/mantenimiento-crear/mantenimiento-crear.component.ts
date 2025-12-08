@@ -35,11 +35,14 @@ export class MantenimientoCrearComponent implements OnInit {
     this.form = this.fb.group({
       tipo_mantenimiento_id: [null, Validators.required],
 
+      // Nuevo: aeronave es requerida por el backend
+      aeronave_id: [null, Validators.required],
+
       fecha_programada: ['', Validators.required],
       fecha_inicio: [''],
       fecha_fin: [''],
 
-      costo_estimado: [0, Validators.required],
+      costo_estimado: [0, [Validators.required, Validators.min(0)]],
       costo_real: [''],
 
       descripcion: [''],
@@ -55,8 +58,7 @@ export class MantenimientoCrearComponent implements OnInit {
         this.tiposMantenimiento = data;
         console.log('Tipos cargados:', data);
       },
-              error: (err: any) => console.error('Error al cargar los tiposS', err)
-
+      error: (err: any) => console.error('Error al cargar los tipos:', err)
     });
   }
 
@@ -70,14 +72,39 @@ export class MantenimientoCrearComponent implements OnInit {
       return;
     }
 
-    const nuevo: MantenimientoInputDTO = this.form.value;
+    const raw = this.form.value;
+
+    // --- CORRECCIONES IMPORTANTES ---
+
+    const nuevo: MantenimientoInputDTO = {
+      tipo_mantenimiento_id: raw.tipo_mantenimiento_id,
+      aeronave_id: raw.aeronave_id,
+
+      fecha_programada: raw.fecha_programada ? new Date(raw.fecha_programada).toISOString() : null,
+      fecha_inicio: raw.fecha_inicio ? new Date(raw.fecha_inicio).toISOString() : null,
+      fecha_fin: raw.fecha_fin ? new Date(raw.fecha_fin).toISOString() : null,
+
+      costo_estimado: Number(raw.costo_estimado),
+      costo_real: raw.costo_real ? Number(raw.costo_real) : null,
+
+      descripcion: raw.descripcion,
+      estado: raw.estado,
+      personal_asignado: raw.personal_asignado
+    };
+
+    console.log("📤 Enviando al backend:", nuevo);
 
     this.mantenimientoService.createMantenimiento(nuevo).subscribe({
       next: () => {
         alert('Mantenimiento creado con éxito');
         this.router.navigate(['/dashboard/mantenimiento']);
       },
-      error: () => {
+      error: (err) => {
+        console.error("❌ RESPUESTA DEL BACKEND:", err.error);
+
+        if (err.error?.message) console.error("MENSAJE:", err.error.message);
+        if (err.error?.errors) console.table(err.error.errors);
+
         alert('Error al crear mantenimiento');
       }
     });
