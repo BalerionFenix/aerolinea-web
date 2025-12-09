@@ -9,7 +9,9 @@ import { environment } from '../../../environments/environment';
 })
 export class UserService {
 
+
      private baseUrl = `${environment.apiUrl}/usuario`;
+
 
 
 

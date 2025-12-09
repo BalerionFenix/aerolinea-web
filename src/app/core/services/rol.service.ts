@@ -11,7 +11,9 @@ import {Rol} from '../models/Usuarios/rol.model';
 })
 export class RolService {
 
+
   private baseUrl = `${environment.apiUrl}/rol`;
+
 
   constructor(private http: HttpClient) { }
 
