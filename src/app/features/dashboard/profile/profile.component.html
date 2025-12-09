@@ -1,0 +1,101 @@
+<main class="flex-1 overflow-y-auto p-6 bg-white-50">
+  <div class="max-w-4xl mx-auto space-y-6">
+
+    <!-- Mensajes de estado -->
+    <div *ngIf="mensajeExito" class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <span>{{ mensajeExito }}</span>
+    </div>
+
+    <div *ngIf="mensajeError" class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+      <span>{{ mensajeError }}</span>
+    </div>
+
+    <!-- Estado de carga -->
+    <div *ngIf="cargando" class="flex items-center justify-center py-12">
+      <div class="text-center">
+        <div class="inline-block animate-spin rounded-full h-16 w-16 border-b-4 border-blue-500"></div>
+        <p class="mt-4 text-gray-600 text-lg font-medium">Cargando información del perfil...</p>
+      </div>
+    </div>
+
+    <!-- Contenido del perfil -->
+    <div *ngIf="!cargando && !errorCarga && usuario" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Columna principal -->
+      <div class="lg:col-span-2 space-y-6">
+
+        <!-- Información Personal -->
+        <div class="bg-white rounded-xl shadow-sm border border-gray-200">
+
+          <!-- Cabecera -->
+          <div class="p-6 border-b border-gray-200">
+            <h2 class="text-gray-900 text-2xl font-bold">Información Personal</h2>
+          </div>
+
+          <!-- Contenido -->
+          <div class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-6">
+
+            <!-- Avatar y nombre -->
+            <div class="sm:col-span-2 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+
+              <!-- Avatar -->
+              <div class="flex flex-col items-center sm:items-start">
+                <!-- Foto de Google o Avatar con iniciales -->
+                <div *ngIf="fotoUrl; else avatarPlaceholder"
+                     class="h-36 w-36 rounded-full bg-center bg-no-repeat bg-cover"
+                     [style.background-image]="'url(' + fotoUrl + ')'">
+                </div>
+
+                <ng-template #avatarPlaceholder>
+                  <div class="h-36 w-36 rounded-full bg-blue-500 flex items-center justify-center text-white text-4xl font-bold">
+                    {{ iniciales }}
+                  </div>
+                </ng-template>
+
+                <p class="text-3xl font-bold text-gray-900 mt-4">{{ nombreUsuario }}</p>
+                <p class="text-gray-500 text-lg flex items-center gap-2 mt-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                  </svg>
+                  {{ rolNombre }}
+                </p>
+              </div>
+
+            </div>
+
+            <!-- Nombre Completo -->
+            <div class="flex flex-col">
+              <label class="text-gray-600 text-sm font-medium pb-2" for="fullName">Nombre Completo</label>
+              <input type="text" [(ngModel)]="formulario.nombre"
+                     class="form-input w-full rounded-lg border border-gray-300 bg-gray-50 h-12 px-4 focus:ring-2 focus:ring-blue-200" id="fullName">
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div class="flex flex-col">
+              <label class="text-gray-600 text-sm font-medium pb-2" for="email">Correo Electrónico</label>
+              <input type="email" [(ngModel)]="formulario.email" disabled
+                     class="form-input w-full rounded-lg border border-gray-300 bg-gray-100 h-12 px-4 cursor-not-allowed opacity-60" id="email">
+            </div>
+
+            <!-- Base Asignada -->
+            <div class="flex flex-col sm:col-span-2">
+              <label class="text-gray-600 text-sm font-medium pb-2" for="base">Base Asignada</label>
+              <input type="text" [value]="formulario.baseNombre || 'Sin base asignada'" disabled
+                     class="form-input w-full rounded-lg border border-gray-300 bg-gray-100 h-12 px-4 cursor-not-allowed opacity-60" id="base">
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</main>

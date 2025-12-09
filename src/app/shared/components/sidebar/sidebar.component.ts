@@ -57,4 +57,7 @@ export class SidebarComponent {
     return rolesPermitidos.includes(this.usuario.rol.nombre);
   }
 
+  protected abrirPerfil() {
+    this.router.navigate(['/dashboard/profile']);
+  }
 }

@@ -40,6 +40,9 @@ import {
 import {
   MantenimientoEditarComponent
 } from './features/mantenimiento/mantenimiento-editar/mantenimiento-editar.component';
+import {PanelUsuariosComponent} from './features/dashboard/panel-usuarios/panel-usuarios.component';
+import {PanelCentralComponent} from './features/dashboard/panel-central/panel-central.component';
+import {ProfileComponent} from './features/dashboard/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -59,6 +62,19 @@ export const routes: Routes = [
     component: DashboardComponent,
     ...canActivate(() => redirectUnauthorizedTo(['login'])),
     children: [
+      {
+        path: 'panel-central',
+        component: PanelCentralComponent,
+      },
+      {
+        path: 'profile',
+        component: ProfileComponent,
+      },
+
+      {
+        path: 'panel-usuario',
+        component: PanelUsuariosComponent
+      },
       {
         path: 'panel-control',
         component: PanelControlComponent
@@ -159,7 +175,7 @@ export const routes: Routes = [
         component: AvionesEditComponent,
       },
 
-      { path: '', redirectTo: 'panel-control', pathMatch: 'full' }
+      { path: '', redirectTo: 'panel-central', pathMatch: 'full' }
     ]
   }
 
