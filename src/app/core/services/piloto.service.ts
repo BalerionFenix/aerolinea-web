@@ -7,7 +7,7 @@ import {catchError, map, Observable, of} from 'rxjs';
   providedIn: 'root'
 })
 export class PilotoService {
-  private baseUrl = 'http://localhost:4000/api/piloto';
+  private baseUrl = 'https://aerolinea-backend-1l6r.onrender.com/api/piloto';
 
   constructor(private http: HttpClient) {
   }

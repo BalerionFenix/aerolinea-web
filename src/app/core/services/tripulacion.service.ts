@@ -8,7 +8,7 @@ import { Tripulacion } from '../models/Personal/tripulacion.model';
 })
 export class TripulacionService {
 
-  private baseUrl = 'http://localhost:4000/api/miembro';
+  private baseUrl = 'https://aerolinea-backend-1l6r.onrender.com/api/miembro';
 
   constructor(private http: HttpClient) {}
 
