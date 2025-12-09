@@ -99,27 +99,33 @@ export class RegistrarUsuarioComponent {
       return;
     }
 
-    const formValue = { ...this.userForm.value, rol_id: 2 };
+    const formValue = {...this.userForm.value, rol_id: 2};
     const dto = new UsuarioInputDTO(formValue);
 
-    // Primero intentamos crear el usuario en el backend
     this.userService.createUser(dto).subscribe({
       next: resp => {
         console.log('Usuario guardado en backend:', resp);
 
+        // Datos para Firebase
+        const firebaseData = {
+          email: this.userForm.value.email,
+          password: this.userForm.value.password,
+        };
+
         // Si backend funciona, registramos en Firebase
-        this.authService.register(formValue)
-          .then(firebaseUser => {
-            console.log('Usuario registrado en Firebase:', firebaseUser);
+        this.authService.createUser(firebaseData).subscribe({
+          next: firebaseResp => {
+            console.log('Usuario creado en Firebase (desde backend):', firebaseResp);
             alert('Usuario creado correctamente. Por favor inicia sesión.');
             this.router.navigate(['/login']);
-          })
-          .catch(firebaseErr => {
-            console.error('Error registrando usuario en Firebase:', firebaseErr);
-            alert('Usuario creado en el sistema pero NO en Firebase. Contacta soporte.');
-          });
-
+          },
+          error: (firebaseErr: unknown) => {
+            console.error('Error creando usuario en Firebase:', firebaseErr);
+            alert('El usuario se guardó en el backend, pero falló al crear en Firebase.');
+          }
+        });
       },
+
       error: err => {
         console.error('Error guardando usuario en backend:', err);
         alert('No se pudo guardar el usuario en el sistema. Intenta nuevamente.');
@@ -127,7 +133,8 @@ export class RegistrarUsuarioComponent {
     });
   }
 
-  cancel(): void {
-    this.router.navigate(['/login']);
+    cancel(): void {
+      this.router.navigate(['/login']);
+    }
+
   }
-}

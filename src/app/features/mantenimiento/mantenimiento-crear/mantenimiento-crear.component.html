@@ -1,0 +1,177 @@
+<main class="px-6 sm:px-8 lg:px-12 py-10 flex flex-1 justify-center bg-gray-50">
+  <div class="flex flex-col w-full max-w-5xl gap-8">
+
+    <!-- Título + Breadcrumb -->
+    <div class="flex flex-col gap-2">
+      <nav class="flex text-sm text-gray-500">
+        <a routerLink="/" class="hover:text-blue-600">Home</a>
+        <span class="mx-2">/</span>
+        <a routerLink="/mantenimiento" class="hover:text-blue-600">Mantenimiento</a>
+        <span class="mx-2">/</span>
+        <span class="text-gray-900 font-medium">Nuevo Registro</span>
+      </nav>
+      <p class="text-gray-900 text-3xl font-black leading-tight">Crear Nuevo Mantenimiento</p>
+      <p class="text-gray-500 text-base font-normal leading-normal">
+        Completa el formulario para registrar un nuevo mantenimiento en el sistema.
+      </p>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="error" class="bg-red-50 border border-red-200 rounded-xl p-4">
+      <div class="flex items-center gap-2">
+        <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-sm text-red-700">{{ error }}</p>
+      </div>
+    </div>
+
+    <!-- Formulario -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-md">
+      <form [formGroup]="mantenimientoForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+
+        <!-- Tipo de Mantenimiento -->
+        <div>
+          <label for="tipo_mantenimiento_id" class="block text-sm font-medium text-gray-700 mb-1">
+            Tipo de Mantenimiento <span class="text-red-500">*</span>
+          </label>
+          <select id="tipo_mantenimiento_id" formControlName="tipo_mantenimiento_id"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                  [class.border-red-600]="isFieldInvalid('tipo_mantenimiento_id')">
+            <option value="">Seleccione un tipo</option>
+            <option *ngFor="let tipo of tiposMantenimiento" [value]="tipo.id">{{ tipo.nombre }}</option>
+          </select>
+          <p *ngIf="isFieldInvalid('tipo_mantenimiento_id')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('tipo_mantenimiento_id') }}
+          </p>
+        </div>
+
+        <!-- Aeronave -->
+        <div>
+          <label for="avion_codigo" class="block text-sm font-medium text-gray-700 mb-1">
+            Aeronave <span class="text-red-500">*</span>
+          </label>
+          <select id="avion_codigo" formControlName="avion_codigo"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                  [class.border-red-600]="isFieldInvalid('avion_codigo')">
+            <option value="">Seleccione una aeronave</option>
+            <option *ngFor="let avion of aviones" [value]="avion.avion_codigo">{{ getAvionDisplayName(avion) }}</option>
+          </select>
+          <p *ngIf="isFieldInvalid('avion_codigo')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('avion_codigo') }}
+          </p>
+        </div>
+
+        <!-- Fecha Programada -->
+        <div>
+          <label for="fecha_programada" class="block text-sm font-medium text-gray-700 mb-1">
+            Fecha Programada <span class="text-red-500">*</span>
+          </label>
+          <input type="date" id="fecha_programada" formControlName="fecha_programada" [min]="getTomorrowDate()"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                 [class.border-red-600]="isFieldInvalid('fecha_programada')">
+          <p *ngIf="isFieldInvalid('fecha_programada')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('fecha_programada') }}
+          </p>
+        </div>
+
+        <!-- Fecha Inicio -->
+        <div>
+          <label for="fecha_inicio" class="block text-sm font-medium text-gray-700 mb-1">
+            Fecha de Inicio
+          </label>
+          <input type="date" id="fecha_inicio" formControlName="fecha_inicio" readonly
+                 class="bg-gray-100 rounded-lg border border-gray-300 p-2 w-full">
+          <p class="text-xs text-gray-500 mt-1">
+            Esta será la fecha real de inicio del mantenimiento. Se asigna automáticamente igual a la fecha programada.
+          </p>
+        </div>
+
+        <!-- Fecha Fin -->
+        <div>
+          <label for="fecha_fin" class="block text-sm font-medium text-gray-700 mb-1">
+            Fecha Estimada de Finalización
+          </label>
+          <input type="date" id="fecha_fin" formControlName="fecha_fin" readonly
+                 class="bg-gray-100 rounded-lg border border-gray-300 p-2 w-full">
+          <p class="text-xs text-gray-500 mt-1">
+            Fecha estimada de finalización según la duración del tipo de mantenimiento seleccionado.
+          </p>
+        </div>
+
+        <!-- Costo Estimado -->
+        <div>
+          <label for="costo_estimado" class="block text-sm font-medium text-gray-700 mb-1">
+            Costo Estimado ($) <span class="text-red-500">*</span>
+          </label>
+          <input type="number" id="costo_estimado" formControlName="costo_estimado" placeholder="Ej: 5000.00"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                 [class.border-red-600]="isFieldInvalid('costo_estimado')">
+          <p *ngIf="isFieldInvalid('costo_estimado')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('costo_estimado') }}
+          </p>
+        </div>
+
+        <!-- Descripción -->
+        <div class="md:col-span-2">
+          <label for="descripcion" class="block text-sm font-medium text-gray-700 mb-1">
+            Descripción <span class="text-red-500">*</span>
+          </label>
+          <textarea id="descripcion" formControlName="descripcion" rows="4"
+                    placeholder="Detalles del trabajo de mantenimiento a realizar..."
+                    class="form-textarea block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                    [class.border-red-600]="isFieldInvalid('descripcion')"></textarea>
+          <p *ngIf="isFieldInvalid('descripcion')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('descripcion') }}
+          </p>
+        </div>
+
+        <!-- Personal Asignado -->
+        <div class="md:col-span-2">
+          <label for="personal_asignado" class="block text-sm font-medium text-gray-700 mb-1">
+            Personal Asignado <span class="text-red-500">*</span>
+          </label>
+          <input type="text" id="personal_asignado" formControlName="personal_asignado"
+                 placeholder="Juan Pérez, equipo de motores"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                 [class.border-red-600]="isFieldInvalid('personal_asignado')">
+          <p *ngIf="isFieldInvalid('personal_asignado')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('personal_asignado') }}
+          </p>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+          <span class="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
+            Programado
+          </span>
+        </div>
+
+        <!-- Botones -->
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-gray-200 mt-3">
+          <button type="button" (click)="onCancel()"
+                  class="flex items-center justify-center h-10 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-bold">
+            Cancelar
+          </button>
+          <button type="submit" [disabled]="loading"
+                  class="flex items-center justify-center h-10 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 gap-2 text-sm font-bold">
+            <svg *ngIf="!loading" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+            <svg *ngIf="loading" class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            {{ loading ? 'Guardando...' : 'Crear Mantenimiento' }}
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>

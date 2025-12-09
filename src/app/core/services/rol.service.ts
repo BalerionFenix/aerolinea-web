@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {catchError, map, Observable, of} from 'rxjs';
+import { environment } from '../../../environments/environment';
+
 import {Base} from '../models/base_avion/base.model';
 import {HttpClient} from '@angular/common/http';
 import {Rol} from '../models/Usuarios/rol.model';
@@ -9,7 +11,8 @@ import {Rol} from '../models/Usuarios/rol.model';
 })
 export class RolService {
 
-  private baseUrl = 'http://localhost:4000/api/rol';
+
+  private baseUrl = `${environment.apiUrl}/rol`;
 
 
   constructor(private http: HttpClient) { }

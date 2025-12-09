@@ -8,6 +8,9 @@ import { inMemoryPersistence,
 } from '@angular/fire/auth';
 import {getApp} from '@angular/fire/app';
 import {Router} from '@angular/router';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,12 +19,20 @@ export class AuthService {
   private auth = inject(Auth);
   private auxauth = getAuth(getApp());
 
+  private baseUrl = 'http://localhost:4000/api/register';
 
+
+  constructor(private http: HttpClient) {
+}
   async register({ email, password }: any) {
     await setPersistence(this.auth, inMemoryPersistence);
-
     return createUserWithEmailAndPassword(this.auxauth, email, password);
   }
+
+
+  createUser(data: { email: string, password: string }): Observable<any>{
+  return this.http.post(this.baseUrl,  data)
+}
 
   login({ email, password }: any) {
     return signInWithEmailAndPassword(this.auth, email, password);

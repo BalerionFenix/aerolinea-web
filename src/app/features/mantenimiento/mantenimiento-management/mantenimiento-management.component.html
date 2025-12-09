@@ -1,0 +1,220 @@
+<main class="flex-1 p-8 overflow-x-hidden bg-white-50">
+  <div class="max-w-7xl mx-auto">
+
+    <!-- Loading State -->
+    <div *ngIf="cargando" class="flex items-center justify-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="!cargando">
+
+      <!-- PageHeading -->
+      <div class="flex flex-wrap justify-between items-center gap-4 mb-6">
+        <h1 class="text-gray-800 text-3xl font-bold tracking-tight">
+          Gestión de Mantenimiento
+        </h1>
+        <button
+          (click)="nuevoMantenimiento()"
+          class="flex items-center justify-center gap-2 min-w-[84px] cursor-pointer rounded-lg h-10 px-4 bg-blue-600 text-white text-sm font-bold shadow-sm hover:bg-blue-700">
+          <!-- Heroicon: plus -->
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+          </svg>
+          <span class="truncate">Nuevo Mantenimiento</span>
+        </button>
+      </div>
+
+      <!-- Toolbar and Filters -->
+      <div class="bg-white p-4 rounded-xl border border-gray-200 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          <!-- Búsqueda por ID -->
+          <div class="relative">
+            <!-- Heroicon: search -->
+            <svg class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input
+              [(ngModel)]="busquedaId"
+              (ngModelChange)="aplicarFiltros()"
+              class="w-full h-10 pl-10 pr-4 rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-600 focus:border-blue-600 text-sm text-gray-700 placeholder:text-gray-500"
+              placeholder="Buscar por ID..."
+              type="text"
+            />
+          </div>
+
+          <!-- Filtro por Estado -->
+          <div>
+            <select
+              [(ngModel)]="filtroEstado"
+              (ngModelChange)="aplicarFiltros()"
+              class="w-full h-10 px-3 rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-600 focus:border-blue-600 text-sm text-gray-700">
+              <option value="todos">Filtrar por Estado</option>
+              <option value="programado">Pendiente</option>
+              <option value="en_proceso">En Progreso</option>
+              <option value="completado">Completado</option>
+              <option value="cancelado">Cancelado</option>
+            </select>
+          </div>
+
+          <!-- Filtro por Aeronave (placeholder) -->
+          <div>
+            <select
+              class="w-full h-10 px-3 rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-600 focus:border-blue-600 text-sm text-gray-700"
+              disabled>
+              <option selected>Filtrar por Aeronave</option>
+            </select>
+          </div>
+
+          <!-- Filtro por Tipo -->
+          <div>
+            <select
+              [(ngModel)]="filtroTipo"
+              (ngModelChange)="aplicarFiltros()"
+              class="w-full h-10 px-3 rounded-lg bg-gray-50 border-gray-300 focus:ring-blue-600 focus:border-blue-600 text-sm text-gray-700">
+              <option value="todos">Filtrar por Tipo</option>
+              <option *ngFor="let tipo of tiposMantenimiento" [value]="tipo.id">
+                {{ tipo.nombre }}
+              </option>
+            </select>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="overflow-x-auto bg-white rounded-xl border border-gray-200">
+        <table class="w-full text-sm text-left text-gray-500">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+          <tr>
+            <th class="px-6 py-3" scope="col">ID</th>
+            <th class="px-6 py-3" scope="col">Aeronave</th>
+            <th class="px-6 py-3" scope="col">Tipo</th>
+            <th class="px-6 py-3" scope="col">
+              <div class="flex items-center gap-1 cursor-pointer hover:text-blue-600">
+                Fecha Programada
+                <!-- Heroicon: arrow-up -->
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3" scope="col">
+              <div class="flex items-center gap-1 cursor-pointer hover:text-blue-600">
+                Costo Estimado
+                <!-- Heroicon: arrows-expand -->
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                </svg>
+              </div>
+            </th>
+            <th class="px-6 py-3 text-center" scope="col">Estado</th>
+            <th class="px-6 py-3 text-right" scope="col">Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+
+          <!-- No hay datos -->
+          <tr *ngIf="mantenimientosPaginados.length === 0">
+            <td colspan="7" class="px-6 py-8 text-center text-gray-500">
+              No se encontraron mantenimientos
+            </td>
+          </tr>
+
+          <!-- Filas con datos -->
+          <tr *ngFor="let mant of mantenimientosPaginados"
+              class="bg-white border-b hover:bg-gray-50">
+
+            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+              {{ getIdFormateado(mant.id) }}
+            </td>
+
+            <td class="px-6 py-4">
+              Aeronave ID: {{ mant.tipoMantenimientoId }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ getNombreTipo(mant.tipoMantenimientoId) }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ formatearFecha(mant.fechaProgramada) }}
+            </td>
+
+            <td class="px-6 py-4">
+              {{ formatearCosto(mant.costoEstimado) }}
+            </td>
+
+            <td class="px-6 py-4 text-center">
+                <span
+                  class="px-2 py-1 text-xs font-semibold rounded-full"
+                  [ngClass]="getEstadoBadgeClass(mant.estado)">
+                  {{ getEstadoTexto(mant.estado) }}
+                </span>
+            </td>
+
+            <td class="px-6 py-4 text-right">
+              <div class="relative inline-block text-left">
+                <button
+                  (click)="verDetalle(mant.id)"
+                  class="text-gray-500 hover:text-blue-600">
+                  <!-- Heroicon: eye -->
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <nav aria-label="Table navigation" class="flex items-center justify-between pt-4">
+        <span class="text-sm font-normal text-gray-500">
+          Mostrando
+          <span class="font-semibold text-gray-900">{{ rangoInicio }}-{{ rangoFin }}</span>
+          de
+          <span class="font-semibold text-gray-900">{{ mantenimientosFiltrados.length }}</span>
+        </span>
+
+        <ul class="inline-flex items-center -space-x-px">
+          <li>
+            <button
+              (click)="paginaAnterior()"
+              [disabled]="paginaActual === 1"
+              class="flex items-center justify-center h-8 px-3 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              Anterior
+            </button>
+          </li>
+
+          <li *ngFor="let pagina of paginasVisibles">
+            <button
+              (click)="irAPagina(pagina)"
+              [class.text-blue-600]="pagina === paginaActual"
+              [class.bg-blue-50]="pagina === paginaActual"
+              [class.border-blue-600]="pagina === paginaActual"
+              class="flex items-center justify-center h-8 px-3 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700">
+              {{ pagina }}
+            </button>
+          </li>
+
+          <li>
+            <button
+              (click)="paginaSiguiente()"
+              [disabled]="paginaActual === totalPaginas || totalPaginas === 0"
+              class="flex items-center justify-center h-8 px-3 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed">
+              Siguiente
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+
+  </div>
+</main>

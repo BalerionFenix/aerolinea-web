@@ -132,30 +132,40 @@ export class UsersCreateComponent {
 
     const formValue = this.userForm.value;
 
-    this.authService.register(formValue)
-      .then(firebaseUser => {
-        console.log('Usuario autenticado en Firebase:', firebaseUser);
+    // Crear usuario en Firebase DESDE EL BACKEND via createUser()
+    this.authService.createUser({
+      email: formValue.email,
+      password: formValue.password
+    }).subscribe({
+      next: (firebaseResp: any) => {
+        console.log('Usuario creado en Firebase (vía backend):', firebaseResp);
 
+        // Ahora guardarlo en tu backend principal
         const dto = new UsuarioInputDTO(formValue);
 
         this.userService.createUser(dto).subscribe({
-          next: (resp) => {
+          next: (resp: any) => {
             console.log('Usuario guardado correctamente en backend:', resp);
             this.router.navigate(['/dashboard/usuarios']);
           },
-          error: (err) => console.error('Error guardando usuario en backend:', err)
+          error: (err: any) => {
+            console.error('Error guardando usuario en backend:', err);
+            alert('Error guardando usuario en el sistema.');
+          }
         });
+      },
 
-      })
-      .catch(err => console.error('Error autenticando en Firebase:', err));
+      error: (firebaseErr: any) => {
+        console.error('Error creando usuario en Firebase:', firebaseErr);
+        alert('No se pudo crear en Firebase.');
+      }
+    });
   }
-
 
 
   cancel() {
     // Regresa a la vista de usuarios
      this.router.navigate(['/dashboard/usuarios']);
   }
-
 
 }
