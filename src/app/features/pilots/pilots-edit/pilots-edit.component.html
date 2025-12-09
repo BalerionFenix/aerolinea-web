@@ -1,0 +1,185 @@
+<main class="flex-1 px-4 sm:px-6 lg:px-10 py-8">
+  <div class="max-w-4xl mx-auto">
+    
+    <!-- Título -->
+    <div class="mb-6">
+      <h1 class="text-3xl font-black text-slate-900">Editar Piloto</h1>
+      <p class="text-slate-600 mt-2">Modifique la información del piloto</p>
+    </div>
+
+    <!-- Formulario -->
+    <form [formGroup]="pilotoForm" (ngSubmit)="actualizarPiloto()" 
+          class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+      
+      <!-- Nombre -->
+      <div>
+        <label for="nombre" class="block text-sm font-semibold text-slate-700 mb-2">
+          Nombre Completo <span class="text-red-500">*</span>
+        </label>
+        <input 
+          id="nombre" 
+          formControlName="nombre" 
+          type="text"
+          placeholder="Ingrese el nombre completo"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          [class.border-red-500]="isFieldInvalid('nombre')"
+        />
+        <p *ngIf="hasError('nombre', 'required')" class="text-red-500 text-sm mt-1">
+          El nombre es requerido
+        </p>
+        <p *ngIf="hasError('nombre', 'minlength')" class="text-red-500 text-sm mt-1">
+          El nombre debe tener al menos 3 caracteres
+        </p>
+      </div>
+
+      <!-- Base -->
+      <div>
+        <label for="base_codigo" class="block text-sm font-semibold text-slate-700 mb-2">
+          Base Asignada <span class="text-red-500">*</span>
+        </label>
+        <select 
+          id="base_codigo" 
+          formControlName="base_codigo"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          [class.border-red-500]="isFieldInvalid('base_codigo')"
+        >
+          <option value="" disabled>Seleccione una base</option>
+          <option *ngFor="let base of bases" [value]="base.base_codigo">
+            {{ base.base_codigo }} - {{ base.nombre }}
+          </option>
+        </select>
+        <p *ngIf="isLoadingBases" class="text-slate-500 text-sm mt-1">
+          Cargando bases...
+        </p>
+        <p *ngIf="isFieldInvalid('base_codigo')" class="text-red-500 text-sm mt-1">
+          La base es requerida
+        </p>
+      </div>
+
+      <!-- Horas de Vuelo y Licencia -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div>
+          <label for="horas_vuelo" class="block text-sm font-semibold text-slate-700 mb-2">
+            Horas de Vuelo <span class="text-red-500">*</span>
+          </label>
+          <input 
+            id="horas_vuelo" 
+            formControlName="horas_vuelo" 
+            type="number"
+            min="0"
+            placeholder="0"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            [class.border-red-500]="isFieldInvalid('horas_vuelo')"
+          />
+          <p *ngIf="hasError('horas_vuelo', 'required')" class="text-red-500 text-sm mt-1">
+            Las horas de vuelo son requeridas
+          </p>
+          <p *ngIf="hasError('horas_vuelo', 'min')" class="text-red-500 text-sm mt-1">
+            Las horas de vuelo deben ser mayor o igual a 0
+          </p>
+        </div>
+
+        <div>
+          <label for="licencia" class="block text-sm font-semibold text-slate-700 mb-2">
+            Número de Licencia <span class="text-red-500">*</span>
+          </label>
+          <input 
+            id="licencia" 
+            formControlName="licencia" 
+            type="text"
+            placeholder="Ej: LIC-12345"
+            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            [class.border-red-500]="isFieldInvalid('licencia')"
+          />
+          <p *ngIf="isFieldInvalid('licencia')" class="text-red-500 text-sm mt-1">
+            La licencia es requerida
+          </p>
+        </div>
+      </div>
+
+      <!-- Fecha de Vencimiento -->
+      <div>
+        <label for="fecha_vencimiento_licencia" class="block text-sm font-semibold text-slate-700 mb-2">
+          Fecha de Vencimiento de Licencia <span class="text-red-500">*</span>
+        </label>
+        <input 
+          id="fecha_vencimiento_licencia" 
+          formControlName="fecha_vencimiento_licencia" 
+          type="date"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+          [class.border-red-500]="isFieldInvalid('fecha_vencimiento_licencia')"
+        />
+        <p *ngIf="isFieldInvalid('fecha_vencimiento_licencia')" class="text-red-500 text-sm mt-1">
+          La fecha de vencimiento es requerida
+        </p>
+      </div>
+
+      <!-- Certificaciones -->
+      <div>
+        <label class="block text-sm font-semibold text-slate-700 mb-3">
+          Certificaciones <span class="text-red-500">*</span>
+        </label>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div *ngFor="let certificacion of certificaciones" class="flex items-center">
+            <input 
+              type="checkbox" 
+              [value]="certificacion" 
+              [checked]="isCertificacionSelected(certificacion)"
+              (change)="onCertificacionChange($event)"
+              [id]="'cert-' + certificacion"
+              class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+            />
+            <label [for]="'cert-' + certificacion" class="ml-2 text-sm text-slate-700 cursor-pointer">
+              {{ certificacion }}
+            </label>
+          </div>
+        </div>
+        <p *ngIf="isFieldInvalid('certificaciones')" class="text-red-500 text-sm mt-2">
+          Debe seleccionar al menos una certificación
+        </p>
+      </div>
+
+      <!-- Estado -->
+      <div>
+        <label for="activo" class="block text-sm font-semibold text-slate-700 mb-2">
+          Estado <span class="text-red-500">*</span>
+        </label>
+        <select 
+          id="activo" 
+          formControlName="activo"
+          class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+        >
+          <option [ngValue]="true">Activo</option>
+          <option [ngValue]="false">Inactivo</option>
+        </select>
+      </div>
+
+      <!-- Botones -->
+      <div class="flex justify-end gap-3 pt-4 border-t border-slate-200">
+        <button 
+          type="button" 
+          (click)="cancelar()"
+          [disabled]="isLoading"
+          class="px-6 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          Cancelar
+        </button>
+
+        <button 
+          type="submit"
+          [disabled]="isLoading || pilotoForm.invalid"
+          class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+        >
+          <svg *ngIf="isLoading" class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <span>{{ isLoading ? 'Actualizando...' : 'Actualizar Piloto' }}</span>
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</main>

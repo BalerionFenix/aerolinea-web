@@ -1,17 +1,26 @@
-import { Component } from '@angular/core';
-import {NgClass, NgForOf} from '@angular/common';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { Router } from '@angular/router';
+import { Piloto } from '../../core/models/Personal/piloto.model';
+import { PilotoService } from '../../core/services/piloto.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pilots',
   imports: [
     NgClass,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   templateUrl: './pilots.component.html',
   styleUrl: './pilots.component.css'
 })
-export class PilotsComponent {
+export class PilotsComponent implements OnInit, OnDestroy {
+  pilotos: Piloto[] = [];
+  isLoading: boolean = true;
+  private subscription?: Subscription;
 
+<<<<<<< Updated upstream
   pilots = [
     { name: 'John Doe', id: 'PILOT-001', base: 'JFK', hours: 620, active: true, photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCc-iAkybAkFOGbHkUZmLDUwJZqyqFKcShmkgLJz15KZKsMK3e0DmBQ6IxAGL4te-9RkW61B4fyaSpRluylYJAsNpZAuzKCMVQHh6LJfovV2vk9sl2ZTv0Wmq6TazIy-RtOfzHFaYNuLsJDN0NIPxFl_ycLv-dEdfdgpGd7w78rPhKea-2b66OEjiN9LCYnAwOHvalNYOOGhJ9jYTckuDI204J8Ga_RqJ-vcP0eZ6JrigX0QpVSChPgUbeGMiUVixf2y_jBoq7sM0dw' },
     { name: 'Jane Smith', id: 'PILOT-002', base: 'LAX', hours: 450, active: true, photo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAGbqcIBRz2gdpgdeUy7yflWwrubr6MHhlMnnc0LvASgr3NaF_F32jbkQ3pejPgRNwK4WM2gl36dzVZkbi2tN6ZbmpVrE15wVsqSvPxEDMBnk6oXkx6PF5OEhi90EXxSkRshEP443hRHMRggY11rgMnufT_Gr00DyvOkyltbS5DPDesdwDPsakrc_vXEj2QZ3n3KWttVg4bOiqN3OnukSpEwaJkx22_eVkvyzGY9E9zZDzZyVf6VoQMvszFTSloDYM0xhUW54vK6G4Q' },
@@ -21,3 +30,78 @@ export class PilotsComponent {
 
 
 }
+=======
+  constructor(
+    private router: Router,
+    private pilotoService: PilotoService
+  ) {}
+
+  ngOnInit() {
+    this.loadPilotos();
+  }
+
+  ngOnDestroy() {
+    // Limpiar suscripciones
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+
+  loadPilotos() {
+    this.isLoading = true;
+    this.pilotos = []; // Limpiar el array antes de cargar
+    
+    // Cancelar suscripción anterior si existe
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+    
+    this.subscription = this.pilotoService.getPilotos().subscribe({
+      next: (data) => {
+        this.pilotos = data;
+        this.isLoading = false;
+        console.log('Pilotos cargados:', this.pilotos);
+      },
+      error: (error) => {
+        console.error('Error al cargar los pilotos:', error);
+        this.pilotos = []; // Asegurar array vacío en caso de error
+        this.isLoading = false;
+      }
+    });
+  }
+
+  addPilot() {
+    this.router.navigate(['/dashboard/pilotos/crear']);
+  }
+
+  editPilot(piloto: Piloto) {
+    this.router.navigate(['/dashboard/pilotos/editar', piloto.piloto_codigo]);
+  }
+
+  deletePilot(piloto: Piloto) {
+    if (confirm(`¿Está seguro de eliminar al piloto ${piloto.nombre}?`)) {
+      this.pilotoService.deletePiloto(piloto.piloto_codigo).subscribe({
+        next: (response) => {
+          if (response) {
+            console.log('Piloto eliminado exitosamente');
+            // Recargar la lista después de eliminar
+            this.loadPilotos();
+          }
+        },
+        error: (error) => {
+          console.error('Error al eliminar piloto:', error);
+          alert('Error al eliminar el piloto');
+        }
+      });
+    }
+  }
+
+  prevPage() {
+    console.log('Página anterior');
+  }
+
+  nextPage() {
+    console.log('Página siguiente');
+  }
+}
+>>>>>>> Stashed changes
