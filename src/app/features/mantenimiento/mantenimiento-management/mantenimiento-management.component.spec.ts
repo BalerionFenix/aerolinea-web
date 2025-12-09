@@ -1,16 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetalleTipoMantenimientoComponent } from './mantenimiento-management.component';
+import {
+  MantenimientoManagementComponent
+} from './mantenimiento-management.component';
 
-describe('DetalleTipoMantenimientoComponent', () => {
-  let component: DetalleTipoMantenimientoComponent;
-  let fixture: ComponentFixture<DetalleTipoMantenimientoComponent>;
+describe('MantenimientoManagementComponent', () => {
+  let component: MantenimientoManagementComponent;
+  let fixture: ComponentFixture<MantenimientoManagementComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DetalleTipoMantenimientoComponent] // porque es standalone
+      imports: [MantenimientoManagementComponent] // porque es standalone
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DetalleTipoMantenimientoComponent);
+    fixture = TestBed.createComponent(MantenimientoManagementComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,8 +7,6 @@ import {PanelControlComponent} from './features/dashboard/panel-control/panel-co
 import {ResetPasswordComponent} from './features/reset-password/reset-password.component';
 import {PilotsComponent} from './features/pilots/pilots.component';
 import {MantenimientoDetalleComponent} from './features/mantenimiento/mantenimiento-detalle/mantenimiento-detalle.component';
-import {DetalleTipoMantenimientoComponent} from './features/mantenimiento/mantenimiento-management/mantenimiento-management.component';
-import {MantenimientoEditComponent} from './features/mantenimiento/mantenimiento-edit/mantenimiento-edit.component';
 import {MantenimientoCrearComponent} from './features/mantenimiento/mantenimiento-crear/mantenimiento-crear.component';
 import {TripulacionComponent} from './features/tripulacion/tripulacion.component';
 import {VuelosComponent} from './features/vuelos/vuelos.component';
@@ -21,6 +19,24 @@ import {BasesEditComponent} from './features/base/bases-edit/bases-edit.componen
 import {AvionesManagementComponent} from './features/aviones/aviones-management/aviones-management.component';
 import {AvionesCreateComponent} from './features/aviones/aviones-create/aviones-create.component';
 import {AvionesEditComponent} from './features/aviones/aviones-edit/aviones-edit.component';
+import {
+  MantenimientoManagementComponent
+} from './features/mantenimiento/mantenimiento-management/mantenimiento-management.component';
+import {
+  TipoMantenimientoManagementComponent
+} from './features/tipo_mantenimiento/tipo-mantenimiento-management/tipo-mantenimiento-management.component';
+import {
+  TipoMantenimientoDetalleComponent
+} from './features/tipo_mantenimiento/tipo-mantenimiento-detalle/tipo-mantenimiento-detalle.component';
+import {
+  TipoMantenimientoCreateComponent
+} from './features/tipo_mantenimiento/tipo-mantenimiento-create/tipo-mantenimiento-create.component';
+import {
+  TipoMantenimientoEditComponent
+} from './features/tipo_mantenimiento/tipo-mantenimiento-edit/tipo-mantenimiento-edit.component';
+import {
+  MantenimientoEditarComponent
+} from './features/mantenimiento/mantenimiento-editar/mantenimiento-editar.component';
 
 
 export const routes: Routes = [
@@ -71,7 +87,7 @@ export const routes: Routes = [
       },
       {
         path: 'mantenimiento',
-        component: DetalleTipoMantenimientoComponent,
+        component: MantenimientoManagementComponent,
       },
       {
         path: 'mantenimiento/detalle/:id',
@@ -79,12 +95,33 @@ export const routes: Routes = [
       },
       {
         path: 'mantenimiento/edit/:id',
-        component: MantenimientoEditComponent,
+        component: MantenimientoEditarComponent,
       },
       {
         path: 'mantenimiento/crear',
         component: MantenimientoCrearComponent,
       },
+
+
+      {
+        path: 'tipo_mantenimiento',
+        component: TipoMantenimientoManagementComponent,
+      },
+
+      {
+        path: 'tipo_mantenimiento/detalle/:id',
+        component: TipoMantenimientoDetalleComponent,
+      },
+      {
+        path: 'tipo_mantenimiento/editar/:id',
+        component: TipoMantenimientoEditComponent,
+      },
+      {
+        path: 'tipo_mantenimiento/create',
+        component: TipoMantenimientoCreateComponent,
+      },
+
+
       {
         path: 'usuarios',
         component: UsersManagementComponent,

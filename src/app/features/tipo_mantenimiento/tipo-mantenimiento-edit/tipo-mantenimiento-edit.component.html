@@ -1,0 +1,176 @@
+<main class="px-6 sm:px-8 lg:px-12 py-10 flex flex-1 justify-center bg-white-50">
+  <div class="flex flex-col w-full max-w-5xl gap-8">
+
+    <!-- TÍTULO -->
+    <div class="flex flex-col gap-1">
+      <p class="text-gray-900 text-3xl font-black leading-tight">
+        Editar Tipo de Mantenimiento
+      </p>
+      <p class="text-gray-500 text-base">
+        Modifique los campos necesarios y guarde los cambios.
+      </p>
+    </div>
+
+    <!-- FORMULARIO -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-300 shadow-xl">
+
+      <!-- LOADING -->
+      <div *ngIf="cargando" class="flex justify-center py-10">
+        <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+      </div>
+
+      <form
+        *ngIf="!cargando"
+        [formGroup]="tipoMantenimientoForm"
+        (ngSubmit)="onSubmit()"
+        class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4"
+      >
+
+        <!-- NOMBRE -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Nombre <span class="text-red-500">*</span>
+          </label>
+
+          <input
+            type="text"
+            formControlName="nombre"
+            placeholder="Ej: Inspección de Tren de Aterrizaje"
+            class="block w-full rounded-lg border border-gray-400 bg-gray-50
+                   text-gray-900 text-sm px-3 py-2
+                   focus:border-blue-600 focus:ring-blue-200"
+          />
+
+          <p *ngIf="mostrarError('nombre')" class="text-xs text-red-600 mt-1">
+            {{ getMensajeError('nombre') }}
+          </p>
+        </div>
+
+        <!-- DESCRIPCIÓN -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Descripción <span class="text-red-500">*</span>
+          </label>
+
+          <textarea
+            rows="4"
+            formControlName="descripcion"
+            placeholder="Describa en qué consiste el mantenimiento..."
+            class="block w-full rounded-lg border border-gray-400 bg-gray-50
+                   text-gray-900 text-sm px-3 py-2
+                   focus:border-blue-600 focus:ring-blue-200"
+          ></textarea>
+
+          <p *ngIf="mostrarError('descripcion')" class="text-xs text-red-600 mt-1">
+            {{ getMensajeError('descripcion') }}
+          </p>
+        </div>
+
+        <!-- DURACIÓN -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Duración Estimada (horas) <span class="text-red-500">*</span>
+          </label>
+
+          <input
+            type="number"
+            min="0"
+            step="0.5"
+            formControlName="duracion_estimada"
+            placeholder="Ej: 4"
+            class="block w-full rounded-lg border border-gray-400 bg-gray-50
+                   text-gray-900 text-sm px-3 py-2
+                   focus:border-blue-600 focus:ring-blue-200"
+          />
+
+          <p *ngIf="mostrarError('duracion_estimada')" class="text-xs text-red-600 mt-1">
+            {{ getMensajeError('duracion_estimada') }}
+          </p>
+        </div>
+
+        <!-- FRECUENCIA -->
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Frecuencia (horas) <span class="text-red-500">*</span>
+          </label>
+
+          <input
+            type="number"
+            min="1"
+            formControlName="frecuencia"
+            placeholder="Ej: 200"
+            class="block w-full rounded-lg border border-gray-400 bg-gray-50
+                   text-gray-900 text-sm px-3 py-2
+                   focus:border-blue-600 focus:ring-blue-200"
+          />
+
+          <p *ngIf="mostrarError('frecuencia')" class="text-xs text-red-600 mt-1">
+            {{ getMensajeError('frecuencia') }}
+          </p>
+        </div>
+
+        <!-- ESTADO -->
+        <div class="md:col-span-2">
+          <label class="block text-sm font-semibold text-gray-700 mb-1">
+            Estado <span class="text-red-500">*</span>
+          </label>
+
+          <select
+            formControlName="estado"
+            class="block w-full rounded-lg border border-gray-400 bg-gray-50
+                   text-gray-900 text-sm px-3 py-2
+                   focus:border-blue-600 focus:ring-blue-200"
+          >
+            <option [ngValue]="true">Activo</option>
+            <option [ngValue]="false">Inactivo</option>
+          </select>
+        </div>
+
+        <!-- ERROR GENERAL -->
+        <div *ngIf="errorMensaje" class="md:col-span-2">
+          <p class="text-sm text-red-600 font-semibold">
+            {{ errorMensaje }}
+          </p>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="md:col-span-2 flex justify-end gap-3 pt-5 border-t border-gray-300 mt-4">
+
+          <button
+            type="button"
+            (click)="cancelar()"
+            [disabled]="enviando"
+            class="h-10 px-5 rounded-lg bg-gray-200
+                   text-gray-700 font-bold text-sm
+                   hover:bg-gray-300 transition
+                   disabled:opacity-50"
+          >
+            Cancelar
+          </button>
+
+          <button
+            type="submit"
+            [disabled]="enviando || !tipoMantenimientoForm.dirty"
+            class="h-10 px-5 rounded-lg bg-blue-600
+                   text-white font-bold text-sm flex items-center gap-2
+                   hover:bg-blue-700 transition
+                   disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+
+            <!-- Heroicon Save -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 13l4 4L19 7"/>
+            </svg>
+
+            {{ enviando ? 'Guardando...' : 'Guardar Cambios' }}
+          </button>
+
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</main>

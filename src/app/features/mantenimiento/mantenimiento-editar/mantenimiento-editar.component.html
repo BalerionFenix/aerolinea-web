@@ -2,18 +2,30 @@
   <div class="flex flex-col w-full max-w-5xl gap-8">
 
     <!-- Título + Breadcrumb -->
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2" *ngIf="!loading && !error">
       <nav class="flex text-sm text-gray-500">
         <a routerLink="/" class="hover:text-blue-600">Home</a>
         <span class="mx-2">/</span>
         <a routerLink="/mantenimiento" class="hover:text-blue-600">Mantenimiento</a>
         <span class="mx-2">/</span>
-        <span class="text-gray-900 font-medium">Nuevo Registro</span>
+        <span class="text-gray-900 font-medium">Editar #MNT-{{ mantenimientoId }}</span>
       </nav>
-      <p class="text-gray-900 text-3xl font-black leading-tight">Crear Nuevo Mantenimiento</p>
+      <p class="text-gray-900 text-3xl font-black leading-tight">Editar Mantenimiento #MNT-{{ mantenimientoId }}</p>
       <p class="text-gray-500 text-base font-normal leading-normal">
-        Completa el formulario para registrar un nuevo mantenimiento en el sistema.
+        Modifica la información del mantenimiento.
       </p>
+    </div>
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="flex items-center justify-center min-h-[400px]">
+      <div class="flex flex-col items-center gap-4">
+        <svg class="animate-spin w-12 h-12 text-blue-600" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <p class="text-gray-600">Cargando mantenimiento...</p>
+      </div>
     </div>
 
     <!-- Error Alert -->
@@ -28,7 +40,7 @@
     </div>
 
     <!-- Formulario -->
-    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-md">
+    <div *ngIf="!loading && !error" class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-md">
       <form [formGroup]="mantenimientoForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
 
         <!-- Tipo de Mantenimiento -->
@@ -68,7 +80,7 @@
           <label for="fecha_programada" class="block text-sm font-medium text-gray-700 mb-1">
             Fecha Programada <span class="text-red-500">*</span>
           </label>
-          <input type="date" id="fecha_programada" formControlName="fecha_programada" [min]="getTomorrowDate()"
+          <input type="date" id="fecha_programada" formControlName="fecha_programada"
                  class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
                  [class.border-red-600]="isFieldInvalid('fecha_programada')">
           <p *ngIf="isFieldInvalid('fecha_programada')" class="text-xs text-red-600 mt-1">
@@ -84,7 +96,7 @@
           <input type="date" id="fecha_inicio" formControlName="fecha_inicio" readonly
                  class="bg-gray-100 rounded-lg border border-gray-300 p-2 w-full">
           <p class="text-xs text-gray-500 mt-1">
-            Esta será la fecha real de inicio del mantenimiento. Se asigna automáticamente igual a la fecha programada.
+            Fecha real de inicio del mantenimiento.
           </p>
         </div>
 
@@ -96,7 +108,7 @@
           <input type="date" id="fecha_fin" formControlName="fecha_fin" readonly
                  class="bg-gray-100 rounded-lg border border-gray-300 p-2 w-full">
           <p class="text-xs text-gray-500 mt-1">
-            Fecha estimada de finalización según la duración del tipo de mantenimiento seleccionado.
+            Fecha estimada según la duración del tipo de mantenimiento.
           </p>
         </div>
 
@@ -110,6 +122,37 @@
                  [class.border-red-600]="isFieldInvalid('costo_estimado')">
           <p *ngIf="isFieldInvalid('costo_estimado')" class="text-xs text-red-600 mt-1">
             {{ getFieldError('costo_estimado') }}
+          </p>
+        </div>
+
+        <!-- Costo Real -->
+        <div>
+          <label for="costo_real" class="block text-sm font-medium text-gray-700 mb-1">
+            Costo Real ($)
+          </label>
+          <input type="number" id="costo_real" formControlName="costo_real" placeholder="Ej: 5200.00"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                 [class.border-red-600]="isFieldInvalid('costo_real')">
+          <p *ngIf="isFieldInvalid('costo_real')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('costo_real') }}
+          </p>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label for="estado" class="block text-sm font-medium text-gray-700 mb-1">
+            Estado <span class="text-red-500">*</span>
+          </label>
+          <select id="estado" formControlName="estado"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"
+                  [class.border-red-600]="isFieldInvalid('estado')">
+            <option value="programado">Programado</option>
+            <option value="en_proceso">En Proceso</option>
+            <option value="completado">Completado</option>
+            <option value="cancelado">Cancelado</option>
+          </select>
+          <p *ngIf="isFieldInvalid('estado')" class="text-xs text-red-600 mt-1">
+            {{ getFieldError('estado') }}
           </p>
         </div>
 
@@ -141,14 +184,6 @@
           </p>
         </div>
 
-        <!-- Estado -->
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
-          <span class="inline-flex items-center rounded-full bg-yellow-100 px-3 py-1 text-sm font-medium text-yellow-800">
-            Programado
-          </span>
-        </div>
-
         <!-- Botones -->
         <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-gray-200 mt-3">
           <button type="button" (click)="onCancel()"
@@ -156,7 +191,7 @@
             Cancelar
           </button>
           <button type="submit" [disabled]="loading"
-                  class="flex items-center justify-center h-10 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 gap-2 text-sm font-bold">
+                  class="flex items-center justify-center h-10 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 gap-2 text-sm font-bold disabled:opacity-50 disabled:cursor-not-allowed">
             <svg *ngIf="!loading" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                  viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
@@ -167,7 +202,7 @@
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
               </path>
             </svg>
-            {{ loading ? 'Guardando...' : 'Crear Mantenimiento' }}
+            {{ loading ? 'Guardando...' : 'Guardar Cambios' }}
           </button>
         </div>
 

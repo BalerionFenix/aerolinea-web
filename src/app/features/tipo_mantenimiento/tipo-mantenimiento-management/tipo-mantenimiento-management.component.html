@@ -1,0 +1,156 @@
+<main class="flex-1 overflow-y-auto">
+  <div class="mx-auto max-w-7xl p-6 lg:p-8">
+
+    <!-- Page Heading -->
+    <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+      <div class="flex flex-col gap-1">
+        <h1 class="text-3xl font-bold leading-tight tracking-tight text-slate-900">
+          Gestión de Tipos de Mantenimiento
+        </h1>
+        <p class="text-slate-500 text-base font-normal leading-normal">
+          Busca, filtra y gestiona los tipos de mantenimiento de la flota.
+        </p>
+      </div>
+      <button
+        (click)="crearNuevo()"
+        class="flex h-10 items-center gap-2 rounded-lg bg-blue-600 px-5 font-bold text-white
+         hover:bg-blue-700 transition-colors">
+        <!-- Heroicon Plus -->
+        <svg xmlns="http://www.w3.org/2000/svg"
+             class="h-5 w-5"
+             fill="none"
+             viewBox="0 0 24 24"
+             stroke="currentColor">
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4" />
+        </svg>
+
+        <span class="truncate">Crear Tipo de Mantenimiento</span>
+      </button>
+
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="mb-4 rounded-xl border border-slate-200 bg-white p-4">
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <!-- Search input -->
+        <div class="md:col-span-2">
+          <label class="flex w-full flex-1 items-stretch rounded-lg h-10">
+            <div class="flex items-center justify-center rounded-l-lg border border-r-0 border-slate-300 bg-slate-50 pl-3">
+              <!-- Heroicon MagnifyingGlass -->
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z"/>
+              </svg>
+            </div>
+            <input [(ngModel)]="searchTerm"
+                   (ngModelChange)="buscar()"
+                   class="form-input w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-lg border border-l-0 border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:border-primary focus:ring-primary text-sm"
+                   placeholder="Buscar por nombre..."/>
+          </label>
+        </div>
+
+        <!-- Filter dropdown -->
+        <div class="flex items-center gap-3 relative">
+          <button (click)="toggleMenuEstado()"
+                  class="flex h-10 shrink-0 w-full items-center justify-between gap-x-2 rounded-lg border border-slate-300 bg-white px-3 text-slate-700 text-sm hover:bg-slate-50">
+            <span class="font-medium leading-normal">{{ getEstadoFiltroTexto() }}</span>
+            <!-- Heroicon ChevronDown -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M19 9l-7 7-7-7"/>
+            </svg>
+          </button>
+
+          <!-- Dropdown Menu -->
+          <div *ngIf="mostrarMenuEstado"
+               class="absolute top-12 right-0 z-10 w-full rounded-lg border border-slate-300 bg-white shadow-lg">
+            <button (click)="filtrarPorEstado('todos')"
+                    class="w-full px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 rounded-t-lg">
+              Todos
+            </button>
+            <button (click)="filtrarPorEstado('activo')"
+                    class="w-full px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50">
+              Activo
+            </button>
+            <button (click)="filtrarPorEstado('inactivo')"
+                    class="w-full px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-50 rounded-b-lg">
+              Inactivo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-slate-200">
+          <thead class="bg-slate-50">
+          <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">ID</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">Nombre</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">Descripción</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">Duración</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">Frecuencia</th>
+            <th class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-slate-500">Estado</th>
+            <th class="relative px-6 py-3"><span class="sr-only">Acciones</span></th>
+          </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200">
+          <tr *ngIf="tiposMantenimientoFiltrados.length === 0">
+            <td colspan="7" class="px-6 py-8 text-center text-sm text-slate-500">No se encontraron tipos de mantenimiento</td>
+          </tr>
+          <tr *ngFor="let tipo of tiposMantenimientoFiltrados" class="hover:bg-slate-50">
+            <td class="whitespace-nowrap px-6 py-4 text-sm font-medium text-slate-500">
+              MT-{{ tipo.id.toString().padStart(3, '0') }}
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-sm font-semibold text-slate-900">{{ tipo.nombre }}</td>
+            <td class="max-w-xs truncate px-6 py-4 text-sm text-slate-500">{{ tipo.descripcion || 'Sin descripción' }}</td>
+            <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-500">{{ tipo.duracionEstimada }} horas</td>
+            <td class="whitespace-nowrap px-6 py-4 text-sm text-slate-500">{{ getFrecuenciaTexto(tipo.frecuencia) }}</td>
+            <td class="whitespace-nowrap px-6 py-4 text-sm">
+              <span class="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium" [ngClass]="getEstadoBadgeClass(tipo.estado)">
+                {{ getEstadoTexto(tipo.estado) }}
+              </span>
+            </td>
+            <td class="whitespace-nowrap px-6 py-4 text-right text-sm font-medium">
+              <button (click)="verDetalle(tipo.id)" class="text-primary hover:text-primary/80 font-medium">Ver Detalle</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-4 flex items-center justify-between">
+      <p class="text-sm text-slate-600">
+        Mostrando
+        <span class="font-semibold text-slate-800">{{ tiposMantenimientoFiltrados.length > 0 ? 1 : 0 }}</span>
+        a
+        <span class="font-semibold text-slate-800">{{ tiposMantenimientoFiltrados.length }}</span>
+        de
+        <span class="font-semibold text-slate-800">{{ tiposMantenimientoFiltrados.length }}</span>
+        resultados
+      </p>
+      <div class="flex items-center gap-2">
+        <button disabled class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">
+          <!-- Heroicon ChevronLeft -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <button disabled class="flex h-8 w-8 items-center justify-center rounded-lg border border-slate-300 text-slate-600 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed">
+          <!-- Heroicon ChevronRight -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</main>
