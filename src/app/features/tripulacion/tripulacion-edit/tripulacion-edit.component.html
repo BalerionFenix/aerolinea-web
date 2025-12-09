@@ -1,0 +1,76 @@
+<main class="px-6 sm:px-8 lg:px-12 py-10 flex flex-1 justify-center bg-white-50">
+  <div class="flex flex-col w-full max-w-5xl gap-8">
+
+    <!-- Título + descripción -->
+    <div class="flex flex-col gap-1">
+      <p class="text-gray-900 text-3xl font-black leading-tight">Editar Tripulante</p>
+      <p class="text-gray-500 text-base font-normal leading-normal">
+        Modifica los datos del tripulante en el formulario.
+      </p>
+    </div>
+
+    <!-- Formulario -->
+    <div class="bg-white p-6 sm:p-8 rounded-2xl border border-gray-200 shadow-md">
+      <form [formGroup]="tripulacionForm" (ngSubmit)="editarTripulante()" class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+
+        <!-- Nombre -->
+        <div class="md:col-span-2">
+          <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre</label>
+          <input formControlName="nombre" id="nombre" type="text" placeholder="Ej: Juan Pérez"
+                 class="form-input block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3"/>
+          <p *ngIf="tripulacionForm.get('nombre')?.touched && tripulacionForm.get('nombre')?.invalid"
+             class="text-xs text-red-600 mt-1">El nombre es obligatorio.</p>
+        </div>
+
+        <!-- Base Aérea -->
+        <div>
+          <label for="base_codigo" class="block text-sm font-medium text-gray-700 mb-1">Base Aérea</label>
+          <select formControlName="base_codigo" id="base_codigo"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3">
+            <option *ngFor="let base of bases" [value]="base.base_codigo">{{ base.nombre }}</option>
+          </select>
+          <p *ngIf="tripulacionForm.get('base_codigo')?.touched && tripulacionForm.get('base_codigo')?.invalid"
+             class="text-xs text-red-600 mt-1">La base aérea es obligatoria.</p>
+        </div>
+
+        <!-- Cargo -->
+        <div>
+          <label for="cargo" class="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
+          <select formControlName="cargo" id="cargo"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3">
+            <option value="Jefe de Cabina">Jefe de Cabina</option>
+            <option value="Sobrecargo">Sobrecargo</option>
+            <option value="Purser">Purser</option>
+            <option value="Auxiliar de Vuelo">Auxiliar de Vuelo</option>
+            <option value="Flight Attendant">Flight Attendant</option>
+            <option value="Senior Flight Attendant">Senior Flight Attendant</option>
+            <option value="Tripulante de Cabina de Pasajeros (TCP)">Tripulante de Cabina de Pasajeros (TCP)</option>
+          </select>
+          <p *ngIf="tripulacionForm.get('cargo')?.touched && tripulacionForm.get('cargo')?.invalid"
+             class="text-xs text-red-600 mt-1">El cargo es obligatorio.</p>
+        </div>
+
+        <!-- Estado -->
+        <div>
+          <label for="activo" class="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+          <select formControlName="activo" id="activo"
+                  class="form-select block w-full rounded-lg border border-gray-300 bg-white text-gray-900 text-sm focus:border-blue-600 focus:ring-blue-200 py-2 px-3">
+            <option value="true">Activo</option>
+            <option value="false">Inactivo</option>
+          </select>
+        </div>
+
+        <!-- Botones -->
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t border-gray-200 mt-3">
+          <button type="button" (click)="cancelar()" class="flex items-center justify-center h-10 px-4 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 text-sm font-bold">
+            Cancelar
+          </button>
+          <button type="submit" class="flex items-center justify-center h-10 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 gap-2 text-sm font-bold">
+            Guardar Cambios
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</main>

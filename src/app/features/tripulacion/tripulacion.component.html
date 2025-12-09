@@ -4,8 +4,13 @@
     <!-- Título y botón añadir -->
     <div class="flex flex-wrap justify-between items-center gap-4">
       <h1 class="text-3xl font-black text-slate-900">Gestión de Tripulación</h1>
-      <button class="flex items-center gap-2 px-4 h-10 bg-primary text-white rounded-lg font-bold hover:bg-primary/90 transition">
-        <span class="material-symbols-outlined text-base">add</span>
+      <button
+        (click)="router.navigate(['/dashboard/tripulacion/crear'])"
+        class="flex items-center gap-2 px-4 h-10 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition">
+        <!-- PlusIcon SVG -->
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
         Añadir Nuevo Miembro
       </button>
     </div>
@@ -15,21 +20,32 @@
       <!-- Buscar -->
       <div class="lg:col-span-2">
         <div class="flex items-center bg-white border border-slate-200 rounded-lg shadow-sm h-12">
-          <span class="material-symbols-outlined text-slate-400 pl-3">search</span>
-          <input type="text" placeholder="Buscar por nombre, ID..." class="flex-1 px-3 h-full bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none" />
+          <!-- MagnifyingGlassIcon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400 pl-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z"/>
+          </svg>
+          <input
+            type="text"
+            placeholder="Buscar por nombre, ID..."
+            class="flex-1 px-3 h-full bg-transparent text-slate-900 placeholder:text-slate-400 focus:outline-none" />
         </div>
       </div>
 
-      <!-- Filtrar por BaseModel -->
+      <!-- Filtrar por Cargo -->
       <button class="flex items-center justify-between bg-white border border-slate-200 rounded-lg shadow-sm px-4 h-12">
-        <span class="text-slate-600 text-sm font-medium">Filtrar por BaseModel</span>
-        <span class="material-symbols-outlined text-slate-400">expand_more</span>
+        <span class="text-slate-600 text-sm font-medium">Filtrar por Cargo</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
 
-      <!-- Filtrar por Rol -->
+      <!-- Filtrar por Estado -->
       <button class="flex items-center justify-between bg-white border border-slate-200 rounded-lg shadow-sm px-4 h-12">
-        <span class="text-slate-600 text-sm font-medium">Filtrar por Rol</span>
-        <span class="material-symbols-outlined text-slate-400">expand_more</span>
+        <span class="text-slate-600 text-sm font-medium">Filtrar por Estado</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
       </button>
     </div>
 
@@ -45,8 +61,14 @@
     </div>
 
     <!-- Mensaje sin datos -->
-    <div *ngIf="!isLoading && tripulacion.length === 0" class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
-      <p class="text-slate-600">No hay miembros de tripulación registrados</p>
+    <div *ngIf="!isLoading && tripulacion.length === 0" class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center flex flex-col items-center gap-2">
+      <!-- UserGroupIcon -->
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-blue-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87M15 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+      </svg>
+      <p class="text-slate-600 font-medium">No hay miembros de tripulación registrados</p>
+      <p class="text-slate-500 text-sm mt-1">Comienza añadiendo un nuevo miembro</p>
     </div>
 
     <!-- Tabla de Tripulación -->
@@ -54,103 +76,85 @@
       <table class="w-full text-sm text-left text-slate-500">
         <thead class="text-xs text-slate-700 uppercase bg-slate-50">
         <tr>
-          <th class="px-6 py-3">ID Empleado</th>
+          <th class="px-6 py-3">ID Miembro</th>
           <th class="px-6 py-3">Nombre Completo</th>
-          <th class="px-6 py-3">Rol</th>
-          <th class="px-6 py-3">BaseModel</th>
-          <th class="px-6 py-3">Teléfono</th>
+          <th class="px-6 py-3">Cargo</th>
+          <th class="px-6 py-3">Código Base</th>
           <th class="px-6 py-3">Estado</th>
           <th class="px-6 py-3 text-right">Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let miembro of tripulacion" class="bg-white border-b hover:bg-slate-50">
-          <td class="px-6 py-4 font-medium text-slate-900">{{ miembro.id }}</td>
-          <td class="px-6 py-4">{{ miembro.nombre }}</td>
-          <td class="px-6 py-4">{{ miembro.rol }}</td>
-          <td class="px-6 py-4">{{ miembro.base }}</td>
-          <td class="px-6 py-4">{{ miembro.telefono }}</td>
+        <tr *ngFor="let miembro of tripulacion" class="bg-white border-b hover:bg-slate-50 transition-colors">
+          <td class="px-6 py-4 font-medium text-slate-900">{{ miembro.miembro_codigo }}</td>
+          <td class="px-6 py-4">{{ miembro.nombre || 'Sin nombre' }}</td>
+          <td class="px-6 py-4">{{ miembro.cargo || 'Sin cargo' }}</td>
+          <td class="px-6 py-4">{{ miembro.base_codigo || 'N/A' }}</td>
           <td class="px-6 py-4">
               <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-full text-xs font-medium"
                     [ngClass]="{
-                      'bg-green-100 text-green-800': miembro.estado==='Activo',
-                      'bg-red-100 text-red-800': miembro.estado==='Inactivo',
-                      'bg-yellow-100 text-yellow-800': miembro.estado==='En espera'
+                      'bg-green-100 text-green-800': miembro.activo,
+                      'bg-red-100 text-red-800': !miembro.activo
                     }">
-                <span class="size-2 rounded-full"
+                <span class="w-2 h-2 rounded-full"
                       [ngClass]="{
-                        'bg-green-500': miembro.estado==='Activo',
-                        'bg-red-500': miembro.estado==='Inactivo',
-                        'bg-yellow-500': miembro.estado==='En espera'
+                        'bg-green-500': miembro.activo,
+                        'bg-red-500': !miembro.activo
                       }"></span>
-                {{ miembro.estado }}
+                {{ miembro.activo ? 'Activo' : 'Inactivo' }}
               </span>
-<<<<<<< Updated upstream
           </td>
-          <td class="px-6 py-4 text-right">
-            <div class="flex justify-end gap-2">
-              <button class="p-2 text-slate-500 hover:text-primary rounded-lg hover:bg-primary/10">
-                <span class="material-symbols-outlined text-base">edit</span>
-              </button>
-              <button class="p-2 text-slate-500 hover:text-red-500 rounded-lg hover:bg-red-500/10">
-                <span class="material-symbols-outlined text-base">delete</span>
-=======
-            </td>
-            <td class="px-6 py-4 text-right flex justify-end gap-2">
-              <!-- Botón Editar -->
-              <button 
-                class="text-gray-500 hover:text-blue-500 transition"
-                (click)="editMember(miembro)"
-                title="Editar miembro">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L7 21H1v-6l6-6z" />
-                </svg>
-              </button>
-              <!-- Botón Eliminar -->
-              <button 
-                class="text-red-500 hover:text-red-700 transition"
-                (click)="deleteMember(miembro)"
-                title="Eliminar miembro">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-1 12H6L5 7m5-4h4a2 2 0 012 2v0a0 0 0 01-0 0H7a2 2 0 012-2v0z" />
-                </svg>
->>>>>>> Stashed changes
-              </button>
-            </div>
+          <td class="px-6 py-4 text-right flex justify-end gap-2">
+            <!-- Botón Editar -->
+            <button (click)="editMember(miembro)"
+                    class="p-2 text-blue-500 hover:text-blue-700 rounded-lg hover:bg-blue-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M11 5H6a2 2 0 00-2 2v12a2 2 0 002 2h12a2 2 0 002-2v-5M16 3l5 5-11 11H6v-5L16 3z"/>
+              </svg>
+            </button>
+            <!-- Botón Eliminar -->
+            <button (click)="deleteMember(miembro)"
+                    class="p-2 text-red-500 hover:text-red-700 rounded-lg hover:bg-red-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
           </td>
         </tr>
         </tbody>
       </table>
     </div>
 
-    <!-- Paginación -->
-    <nav class="flex items-center justify-between p-4">
+    <!-- Paginación (solo si hay datos) -->
+    <nav *ngIf="!isLoading && tripulacion.length > 0"
+         class="flex items-center justify-between p-4"
+         aria-label="Paginación de tabla">
       <span class="text-sm text-slate-500">
-        Mostrando <span class="font-semibold text-slate-900">1-5</span> de <span class="font-semibold text-slate-900">100</span>
+        Mostrando <span class="font-semibold text-slate-900">1-{{ tripulacion.length }}</span>
+        de <span class="font-semibold text-slate-900">{{ tripulacion.length }}</span>
       </span>
       <ul class="inline-flex items-center -space-x-px">
         <li>
-          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 rounded-l-lg hover:bg-slate-100 hover:text-slate-700" href="#">Anterior</a>
+          <button type="button"
+                  class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 rounded-l-lg hover:bg-slate-100 hover:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled>Anterior</button>
         </li>
         <li>
-          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 hover:bg-slate-100 hover:text-slate-700" href="#">1</a>
+          <button type="button" aria-current="page"
+                  class="px-3 h-8 flex items-center justify-center text-blue-600 bg-blue-50 border border-blue-300 hover:bg-blue-100 hover:text-blue-700">
+            1
+          </button>
         </li>
         <li>
-          <a aria-current="page" class="px-3 h-8 flex items-center justify-center text-primary bg-primary/10 border border-primary hover:bg-primary/20 hover:text-primary" href="#">2</a>
-        </li>
-        <li>
-          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 hover:bg-slate-100 hover:text-slate-700" href="#">3</a>
-        </li>
-        <li>
-          <a class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 rounded-r-lg hover:bg-slate-100 hover:text-slate-700" href="#">Siguiente</a>
+          <button type="button"
+                  class="px-3 h-8 flex items-center justify-center text-slate-500 bg-white border border-slate-300 rounded-r-lg hover:bg-slate-100 hover:text-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled>Siguiente</button>
         </li>
       </ul>
     </nav>
 
   </div>
-<<<<<<< Updated upstream
 </main>
-~~~
-=======
-</main>
->>>>>>> Stashed changes
+S

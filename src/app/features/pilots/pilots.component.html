@@ -4,9 +4,8 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 bg-white">
       <p class="text-base font-medium">Total de Pilotos</p>
-      <p class="text-3xl font-bold">1,250</p>
+      <p class="text-3xl font-bold">{{ pilotos.length }}</p>
       <p class="flex items-center gap-1 text-green-600 text-base font-medium">
-        <!-- Heroicon: Arrow Up -->
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l5-5 5 5M10 19V7" />
         </svg>
@@ -16,7 +15,7 @@
 
     <div class="flex flex-col gap-2 rounded-xl p-6 border border-gray-200 bg-white">
       <p class="text-base font-medium">Pilotos Activos</p>
-      <p class="text-3xl font-bold">1,180</p>
+      <p class="text-3xl font-bold">{{ getPilotosActivos() }}</p>
       <p class="flex items-center gap-1 text-green-600 text-base font-medium">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12l5-5 5 5M10 19V7" />
@@ -38,47 +37,53 @@
   </div>
 
   <!-- Filters -->
-  <div class="flex items-center p-4 border border-gray-200 rounded-xl gap-3 overflow-x-auto">
-    <!-- BaseModel Filter -->
-    <button class="flex h-9 items-center gap-x-2 rounded-lg bg-gray-100 px-3">
-      <!-- Heroicon: Filter -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 14.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-2.586L3.293 6.707A1 1 0 013 6V4z" />
-      </svg>
-      <span class="text-sm font-medium">BaseModel</span>
-      <!-- Chevron Down -->
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
+  <div class="flex items-center justify-between p-4 border border-gray-200 rounded-xl gap-3 bg-white">
+    <div class="flex items-center gap-3 overflow-x-auto">
+      <!-- Base Filter -->
+      <button class="flex h-9 items-center gap-x-2 rounded-lg bg-gray-100 px-3 hover:bg-gray-200 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L15 14.414V19a1 1 0 01-1.447.894l-4-2A1 1 0 019 17v-2.586L3.293 6.707A1 1 0 013 6V4z" />
+        </svg>
+        <span class="text-sm font-medium">Base</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
 
-    <!-- Horas de Vuelo Filter -->
-    <button class="flex h-9 items-center gap-x-2 rounded-lg bg-gray-100 px-3">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-      <span class="text-sm font-medium">Horas de Vuelo</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
-    </button>
+      <!-- Horas de Vuelo Filter -->
+      <button class="flex h-9 items-center gap-x-2 rounded-lg bg-gray-100 px-3 hover:bg-gray-200 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span class="text-sm font-medium">Horas de Vuelo</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
 
-    <!-- Estado Filter -->
-    <button class="flex h-9 items-center gap-x-2 rounded-lg bg-gray-100 px-3">
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-        <circle cx="10" cy="10" r="5" />
+      <!-- Estado Filter -->
+      <button class="flex h-9 items-center gap-x-2 rounded-lg bg-gray-100 px-3 hover:bg-gray-200 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+          <circle cx="10" cy="10" r="5" />
+        </svg>
+        <span class="text-sm font-medium">Estado</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Botón Añadir Piloto -->
+    <button
+      (click)="addPilot()"
+      class="flex items-center gap-2 px-4 h-9 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition whitespace-nowrap">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
       </svg>
-      <span class="text-sm font-medium">Estado</span>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-      </svg>
+      Añadir Piloto
     </button>
   </div>
 
-<<<<<<< Updated upstream
-  <!-- Table -->
-  <div class="overflow-x-auto bg-white border border-gray-200 rounded-xl">
-=======
   <!-- Indicador de Carga -->
   <div *ngIf="isLoading" class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
     <div class="flex items-center justify-center gap-2">
@@ -92,91 +97,91 @@
 
   <!-- Mensaje sin datos -->
   <div *ngIf="!isLoading && pilotos.length === 0" class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
-    <p class="text-gray-600">No hay pilotos registrados</p>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+    </svg>
+    <p class="text-gray-600 font-medium">No hay pilotos registrados</p>
+    <p class="text-gray-500 text-sm mt-1">Comienza añadiendo un nuevo piloto</p>
   </div>
 
   <!-- Tabla de pilotos -->
   <div *ngIf="!isLoading && pilotos.length > 0" class="overflow-x-auto bg-white border border-gray-200 rounded-xl">
->>>>>>> Stashed changes
     <table class="w-full text-left">
       <thead class="bg-gray-50">
       <tr>
-        <th class="px-6 py-4 text-sm font-semibold text-gray-500">Nombre</th>
-        <th class="px-6 py-4 text-sm font-semibold text-gray-500">ID Empleado</th>
-        <th class="px-6 py-4 text-sm font-semibold text-gray-500">BaseModel Asignada</th>
-        <th class="px-6 py-4 text-sm font-semibold text-gray-500 text-right">Horas de Vuelo</th>
-        <th class="px-6 py-4 text-sm font-semibold text-gray-500">Estado</th>
-        <th class="px-6 py-4 text-sm font-semibold text-gray-500 text-right">Acciones</th>
+        <th scope="col" class="px-6 py-4 text-sm font-semibold text-gray-500">Nombre</th>
+        <th scope="col" class="px-6 py-4 text-sm font-semibold text-gray-500">ID Piloto</th>
+        <th scope="col" class="px-6 py-4 text-sm font-semibold text-gray-500">Base Asignada</th>
+        <th scope="col" class="px-6 py-4 text-sm font-semibold text-gray-500 text-right">Horas de Vuelo</th>
+        <th scope="col" class="px-6 py-4 text-sm font-semibold text-gray-500">Estado</th>
+        <th scope="col" class="px-6 py-4 text-sm font-semibold text-gray-500 text-right">Acciones</th>
       </tr>
       </thead>
       <tbody class="divide-y divide-gray-200">
-      <tr *ngFor="let pilot of pilots">
+      <tr *ngFor="let piloto of pilotos" class="hover:bg-gray-50 transition">
         <td class="px-6 py-4 flex items-center gap-3">
-          <span>{{ pilot.name }}</span>
+          <span class="font-medium text-gray-900">{{ piloto.nombre || 'Sin nombre' }}</span>
         </td>
-        <td class="px-6 py-4 text-gray-500">{{ pilot.id }}</td>
-        <td class="px-6 py-4 text-gray-500">{{ pilot.base }}</td>
-        <td class="px-6 py-4 text-right text-gray-500">{{ pilot.hours }}</td>
+        <td class="px-6 py-4 text-gray-500">{{ piloto.piloto_codigo }}</td>
+        <td class="px-6 py-4 text-gray-500">{{ piloto.base_codigo || 'N/A' }}</td>
+        <td class="px-6 py-4 text-right text-gray-500">{{ piloto.horas_vuelo || 0 }}</td>
         <td class="px-6 py-4">
             <span class="inline-flex items-center gap-2 px-3 py-1 text-sm font-medium rounded-full"
-                  [ngClass]="pilot.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'">
-              <span class="h-2 w-2 rounded-full" [ngClass]="pilot.active ? 'bg-green-500' : 'bg-gray-500'"></span>
-              {{ pilot.active ? 'Activo' : 'Inactivo' }}
+                  [ngClass]="{
+                    'bg-green-100 text-green-800': piloto.activo,
+                    'bg-gray-100 text-gray-800': !piloto.activo
+                  }">
+              <span class="h-2 w-2 rounded-full"
+                    [ngClass]="{
+                      'bg-green-500': piloto.activo,
+                      'bg-gray-500': !piloto.activo
+                    }"></span>
+              {{ piloto.activo ? 'Activo' : 'Inactivo' }}
             </span>
         </td>
         <td class="px-6 py-4 text-right flex justify-end gap-2">
-<<<<<<< Updated upstream
-          <!-- Pencil -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L7 21H1v-6l6-6z" />
-          </svg>
-          <!-- Eye -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5s8.268 2.943 9.542 7c-1.274 4.057-5.065 7-9.542 7s-8.268-2.943-9.542-7z" />
-          </svg>
-          <!-- Trash -->
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 hover:text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-1 12H6L5 7m5-4h4a2 2 0 012 2v0a0 0 0 01-0 0H7a2 2 0 012-2v0z" />
-          </svg>
-=======
           <!-- Botón Editar -->
-          <button 
-            class="text-gray-500 hover:text-blue-500 transition"
+          <button
+            type="button"
+            class="p-2 text-gray-500 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition"
             (click)="editPilot(piloto)"
-            title="Editar piloto">
+            [title]="'Editar ' + piloto.nombre">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L7 21H1v-6l6-6z" />
             </svg>
           </button>
           <!-- Botón Eliminar -->
-          <button 
-            class="text-red-500 hover:text-red-700 transition"
+          <button
+            type="button"
+            class="p-2 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition"
             (click)="deletePilot(piloto)"
-            title="Eliminar piloto">
+            [title]="'Eliminar ' + piloto.nombre">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-1 12H6L5 7m5-4h4a2 2 0 012 2v0a0 0 0 01-0 0H7a2 2 0 012-2v0z" />
             </svg>
           </button>
->>>>>>> Stashed changes
         </td>
       </tr>
       </tbody>
     </table>
   </div>
 
-<<<<<<< Updated upstream
-  <!-- Pagination -->
-  <div class="flex items-center justify-between p-4 border-t border-gray-200">
-    <span class="text-sm text-gray-500">Mostrando 1-4 de 1250 resultados</span>
-=======
   <!-- Paginación -->
   <div *ngIf="!isLoading && pilotos.length > 0" class="flex items-center justify-between p-4 border-t border-gray-200 bg-white rounded-xl">
     <span class="text-sm text-gray-500">Mostrando 1-{{ pilotos.length }} de {{ pilotos.length }} resultados</span>
->>>>>>> Stashed changes
     <div class="flex items-center gap-2">
-      <button class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200">Anterior</button>
-      <button class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200">Siguiente</button>
+      <button
+        type="button"
+        class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        disabled>
+        Anterior
+      </button>
+      <button
+        type="button"
+        class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed transition"
+        disabled>
+        Siguiente
+      </button>
     </div>
   </div>
 

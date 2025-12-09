@@ -11,7 +11,6 @@ import { Piloto } from '../../../core/models/Personal/piloto.model';
   selector: 'app-pilots-edit',
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './pilots-edit.component.html',
-  styleUrls: ['./pilots-edit.component.css'],
   standalone: true,
 })
 export class PilotsEditComponent implements OnInit {
@@ -92,10 +91,10 @@ export class PilotsEditComponent implements OnInit {
         if (piloto) {
           this.piloto = piloto;
           // Cargar las certificaciones guardadas PRIMERO
-          this.selectedCertificaciones = Array.isArray(piloto.certificaciones) 
-            ? [...piloto.certificaciones] 
+          this.selectedCertificaciones = Array.isArray(piloto.certificaciones)
+            ? [...piloto.certificaciones]
             : [];
-          
+
           // Cargar el formulario con los datos
           this.pilotoForm.patchValue({
             nombre: piloto.nombre,
@@ -106,12 +105,12 @@ export class PilotsEditComponent implements OnInit {
             certificaciones: this.selectedCertificaciones,
             activo: piloto.activo
           });
-          
+
           // Quitar el loading DESPUÉS para que Angular renderice con los datos
           setTimeout(() => {
             this.isLoadingPiloto = false;
           }, 100);
-          
+
           console.log('Piloto cargado:', piloto);
           console.log('Certificaciones cargadas:', this.selectedCertificaciones);
         } else {
@@ -154,9 +153,9 @@ export class PilotsEditComponent implements OnInit {
         horas_vuelo: Number(this.pilotoForm.value.horas_vuelo),
         activo: this.pilotoForm.value.activo === true || this.pilotoForm.value.activo === 'true'
       };
-      
+
       console.log('Datos del piloto a actualizar:', pilotoData);
-      
+
       this.pilotoService.updatePiloto(this.pilotoId, pilotoData).subscribe({
         next: (response) => {
           console.log('Piloto actualizado exitosamente:', response);

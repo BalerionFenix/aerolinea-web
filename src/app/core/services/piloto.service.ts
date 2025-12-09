@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Piloto } from '../models/Personal/piloto.model';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Piloto} from '../models/Personal/piloto.model';
 import {catchError, map, Observable, of} from 'rxjs';
 
 @Injectable({
@@ -9,7 +9,8 @@ import {catchError, map, Observable, of} from 'rxjs';
 export class PilotoService {
   private baseUrl = 'http://localhost:4000/api/piloto';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+  }
 
   getPilotos(): Observable<Piloto[]> {
     return this.http.get<any[]>(this.baseUrl).pipe(
@@ -73,7 +74,6 @@ export class PilotoService {
       catchError(error => {
         console.error('Error al eliminar piloto', error);
         return of(null);
-      })
-    );
-  }
+      }));
+  }
 }

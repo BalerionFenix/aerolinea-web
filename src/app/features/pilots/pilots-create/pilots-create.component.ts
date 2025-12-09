@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
   selector: 'app-pilots-create',
   imports: [ReactiveFormsModule, CommonModule, RouterModule],
   templateUrl: './pilots-create.component.html',
-  styleUrls: ['./pilots-create.component.css'],
   standalone: true,
 })
 export class PilotsCreateComponent implements OnInit, OnDestroy {
@@ -101,7 +100,7 @@ export class PilotsCreateComponent implements OnInit, OnDestroy {
   crearPiloto(): void {
     if (this.pilotoForm.valid) {
       this.isLoading = true;
-      
+
       // Construir el objeto con los datos exactos necesarios
       const pilotoData = {
         nombre: this.pilotoForm.value.nombre.trim(),
@@ -112,15 +111,15 @@ export class PilotsCreateComponent implements OnInit, OnDestroy {
         certificaciones: [...this.selectedCertificaciones], // Crear copia del array
         activo: Boolean(this.pilotoForm.value.activo)
       };
-      
+
       console.log('Datos del piloto a crear:', pilotoData);
-      
+
       const sub = this.pilotoService.createPiloto(pilotoData).subscribe({
         next: (response) => {
           console.log('Piloto creado exitosamente:', response);
           this.isLoading = false;
           alert('Piloto creado exitosamente');
-          
+
           // Limpiar el formulario
           this.pilotoForm.reset({
             nombre: '',
@@ -132,7 +131,7 @@ export class PilotsCreateComponent implements OnInit, OnDestroy {
             activo: true
           });
           this.selectedCertificaciones = [];
-          
+
           // Navegar a la lista de pilotos
           this.router.navigate(['/dashboard/pilotos']);
         },
@@ -165,7 +164,6 @@ export class PilotsCreateComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Métodos auxiliares para validación en el template
   hasError(field: string, error: string): boolean {
     const control = this.pilotoForm.get(field);
     return !!(control && control.hasError(error) && (control.dirty || control.touched));

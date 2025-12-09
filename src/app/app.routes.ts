@@ -9,7 +9,6 @@ import {PilotsComponent} from './features/pilots/pilots.component';
 import {MantenimientoDetalleComponent} from './features/mantenimiento/mantenimiento-detalle/mantenimiento-detalle.component';
 import {MantenimientoCrearComponent} from './features/mantenimiento/mantenimiento-crear/mantenimiento-crear.component';
 import {TripulacionComponent} from './features/tripulacion/tripulacion.component';
-import {VuelosComponent} from './features/vuelos/vuelos.component';
 import {BasesAereasComponent} from './features/base/bases-aereas/bases-aereas.component';
 import {UsersManagementComponent} from './features/usuarios/users-management/users-management.component';
 import {UsersCreateComponent} from './features/usuarios/users-create/users-create.component';
@@ -43,6 +42,10 @@ import {
 import {PanelUsuariosComponent} from './features/dashboard/panel-usuarios/panel-usuarios.component';
 import {PanelCentralComponent} from './features/dashboard/panel-central/panel-central.component';
 import {ProfileComponent} from './features/dashboard/profile/profile.component';
+import {PilotsCreateComponent} from './features/pilots/pilots-create/pilots-create.component';
+import {PilotsEditComponent} from './features/pilots/pilots-edit/pilots-edit.component';
+import {TripulacionCreateComponent} from './features/tripulacion/tripulacion-create/tripulacion-create.component';
+import {TripulacionEditComponent} from './features/tripulacion/tripulacion-edit/tripulacion-edit.component';
 
 
 export const routes: Routes = [
@@ -84,9 +87,27 @@ export const routes: Routes = [
         component: PilotsComponent
       },
       {
+        path: 'pilotos/crear',
+        component: PilotsCreateComponent
+      },
+      {
+        path: 'pilotos/editar/:id',
+        component: PilotsEditComponent
+      },
+
+      {
         path: 'tripulacion',
         component: TripulacionComponent
       },
+      {
+        path: 'tripulacion/crear',
+        component: TripulacionCreateComponent
+      },
+      {
+        path: 'tripulacion/editar/:id',
+        component: TripulacionEditComponent
+      },
+
       {
         path: 'vuelos',
         component: FlightManagementComponent

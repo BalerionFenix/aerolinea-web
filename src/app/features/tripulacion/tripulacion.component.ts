@@ -1,102 +1,75 @@
-<<<<<<< Updated upstream
-import { Component } from '@angular/core';
-import {NgClass, NgForOf} from '@angular/common';
-
-
-interface MiembroTripulacion {
-  id: string;
-  nombre: string;
-  rol: string;
-  base: string;
-  telefono: string;
-  estado: 'Activo' | 'Inactivo' | 'En espera';
-}
+import { Component, OnInit } from '@angular/core';
+import { NgClass, NgForOf, NgIf } from '@angular/common';
+import { Tripulacion } from '../../core/models/Personal/tripulacion.model';
+import { Router } from '@angular/router';
+import { TripulacionService } from '../../core/services/tripulacion.service';
 
 @Component({
   selector: 'app-tripulacion',
   imports: [
     NgClass,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
-=======
-import { Component, OnInit } from '@angular/core';
-import { NgClass, NgForOf, NgIf } from '@angular/common';
-import { Tripulacion } from '../../core/models/Personal/tripulacion.model';
-import { Router, RouterLink } from '@angular/router';
-import { TripulacionService } from '../../core/services/tripulacion.service';
-
-@Component({
-  selector: 'app-tripulacion',
-  imports: [NgClass, NgForOf, NgIf, RouterLink],
->>>>>>> Stashed changes
   templateUrl: './tripulacion.component.html',
   styleUrl: './tripulacion.component.css'
 })
-<<<<<<< Updated upstream
-export class TripulacionComponent {
-  tripulacion: MiembroTripulacion[] = [
-    { id: 'EMP-001', nombre: 'Juan Pérez', rol: 'Capitán', base: 'MAD - Madrid Barajas', telefono: '+34 600 123 456', estado: 'Activo' },
-    { id: 'EMP-002', nombre: 'Ana García', rol: 'Primer Oficial', base: 'BCN - Barcelona El Prat', telefono: '+34 600 234 567', estado: 'Activo' },
-    { id: 'EMP-003', nombre: 'Carlos Rodríguez', rol: 'Jefe de Cabina', base: 'MAD - Madrid Barajas', telefono: '+34 600 345 678', estado: 'Inactivo' },
-    { id: 'EMP-004', nombre: 'Lucía Martínez', rol: 'TCP', base: 'LIS - Lisboa', telefono: '+351 912 345 678', estado: 'Activo' },
-    { id: 'EMP-005', nombre: 'Miguel Sánchez', rol: 'TCP', base: 'BCN - Barcelona El Prat', telefono: '+34 600 456 789', estado: 'En espera' },
-  ];
-
-
-}
-=======
 export class TripulacionComponent implements OnInit {
   tripulacion: Tripulacion[] = [];
   isLoading: boolean = true;
 
   constructor(
-    private router: Router,
+    public router: Router,
     private tripulacionService: TripulacionService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadTripulacion();
   }
 
-  loadTripulacion() {
+  loadTripulacion(): void {
     this.isLoading = true;
-    this.tripulacion = []; // Limpiar el array antes de cargar
-    
+    this.tripulacion = [];
+
     this.tripulacionService.getTripulacion().subscribe({
       next: (data) => {
-        this.tripulacion = data;
+        this.tripulacion = data || [];
         this.isLoading = false;
         console.log('Tripulación cargada:', this.tripulacion);
       },
       error: (error) => {
         console.error('Error al cargar la tripulación:', error);
-        this.tripulacion = []; // Asegurar array vacío en caso de error
+        this.tripulacion = [];
         this.isLoading = false;
+        alert('Error al cargar la tripulación. Por favor, intente nuevamente.');
       }
     });
   }
 
-  editMember(miembro: Tripulacion) {
-    this.router.navigate(['/dashboard/tripulacion/editar', miembro.miembro_codigo]);
+  editMember(miembro: Tripulacion): void {
+    if (miembro?.miembro_codigo) {
+      this.router.navigate(['/dashboard/tripulacion/editar', miembro.miembro_codigo]);
+    }
   }
 
-  deleteMember(miembro: Tripulacion) {
+  deleteMember(miembro: Tripulacion): void {
+    if (!miembro?.miembro_codigo) {
+      console.error('Miembro sin código válido');
+      return;
+    }
+
     if (confirm(`¿Está seguro de eliminar a ${miembro.nombre}?`)) {
       this.tripulacionService.deleteMiembro(miembro.miembro_codigo).subscribe({
         next: (response) => {
-          if (response) {
-            console.log('Miembro eliminado exitosamente');
-            // Recargar la lista después de eliminar
-            this.loadTripulacion();
-            window.location.reload();
-          }
+          console.log('Miembro eliminado exitosamente');
+          // Recargar la lista sin refrescar toda la página
+          this.loadTripulacion();
         },
         error: (error) => {
           console.error('Error al eliminar miembro:', error);
-          alert('Error al eliminar el miembro');
+          alert('Error al eliminar el miembro. Por favor, intente nuevamente.');
         }
       });
     }
   }
 }
->>>>>>> Stashed changes
