@@ -75,8 +75,29 @@
     </button>
   </div>
 
+<<<<<<< Updated upstream
   <!-- Table -->
   <div class="overflow-x-auto bg-white border border-gray-200 rounded-xl">
+=======
+  <!-- Indicador de Carga -->
+  <div *ngIf="isLoading" class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+    <div class="flex items-center justify-center gap-2">
+      <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="text-gray-600">Cargando pilotos...</span>
+    </div>
+  </div>
+
+  <!-- Mensaje sin datos -->
+  <div *ngIf="!isLoading && pilotos.length === 0" class="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center">
+    <p class="text-gray-600">No hay pilotos registrados</p>
+  </div>
+
+  <!-- Tabla de pilotos -->
+  <div *ngIf="!isLoading && pilotos.length > 0" class="overflow-x-auto bg-white border border-gray-200 rounded-xl">
+>>>>>>> Stashed changes
     <table class="w-full text-left">
       <thead class="bg-gray-50">
       <tr>
@@ -104,6 +125,7 @@
             </span>
         </td>
         <td class="px-6 py-4 text-right flex justify-end gap-2">
+<<<<<<< Updated upstream
           <!-- Pencil -->
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L7 21H1v-6l6-6z" />
@@ -117,15 +139,41 @@
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500 hover:text-red-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-1 12H6L5 7m5-4h4a2 2 0 012 2v0a0 0 0 01-0 0H7a2 2 0 012-2v0z" />
           </svg>
+=======
+          <!-- Botón Editar -->
+          <button 
+            class="text-gray-500 hover:text-blue-500 transition"
+            (click)="editPilot(piloto)"
+            title="Editar piloto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L7 21H1v-6l6-6z" />
+            </svg>
+          </button>
+          <!-- Botón Eliminar -->
+          <button 
+            class="text-red-500 hover:text-red-700 transition"
+            (click)="deletePilot(piloto)"
+            title="Eliminar piloto">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-1 12H6L5 7m5-4h4a2 2 0 012 2v0a0 0 0 01-0 0H7a2 2 0 012-2v0z" />
+            </svg>
+          </button>
+>>>>>>> Stashed changes
         </td>
       </tr>
       </tbody>
     </table>
   </div>
 
+<<<<<<< Updated upstream
   <!-- Pagination -->
   <div class="flex items-center justify-between p-4 border-t border-gray-200">
     <span class="text-sm text-gray-500">Mostrando 1-4 de 1250 resultados</span>
+=======
+  <!-- Paginación -->
+  <div *ngIf="!isLoading && pilotos.length > 0" class="flex items-center justify-between p-4 border-t border-gray-200 bg-white rounded-xl">
+    <span class="text-sm text-gray-500">Mostrando 1-{{ pilotos.length }} de {{ pilotos.length }} resultados</span>
+>>>>>>> Stashed changes
     <div class="flex items-center gap-2">
       <button class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200">Anterior</button>
       <button class="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-100 hover:bg-gray-200">Siguiente</button>

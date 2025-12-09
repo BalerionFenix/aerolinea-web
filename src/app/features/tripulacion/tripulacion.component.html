@@ -33,8 +33,24 @@
       </button>
     </div>
 
+    <!-- Indicador de Carga -->
+    <div *ngIf="isLoading" class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
+      <div class="flex items-center justify-center gap-2">
+        <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+        <span class="text-slate-600">Cargando tripulación...</span>
+      </div>
+    </div>
+
+    <!-- Mensaje sin datos -->
+    <div *ngIf="!isLoading && tripulacion.length === 0" class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
+      <p class="text-slate-600">No hay miembros de tripulación registrados</p>
+    </div>
+
     <!-- Tabla de Tripulación -->
-    <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
+    <div *ngIf="!isLoading && tripulacion.length > 0" class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-x-auto">
       <table class="w-full text-sm text-left text-slate-500">
         <thead class="text-xs text-slate-700 uppercase bg-slate-50">
         <tr>
@@ -69,6 +85,7 @@
                       }"></span>
                 {{ miembro.estado }}
               </span>
+<<<<<<< Updated upstream
           </td>
           <td class="px-6 py-4 text-right">
             <div class="flex justify-end gap-2">
@@ -77,6 +94,27 @@
               </button>
               <button class="p-2 text-slate-500 hover:text-red-500 rounded-lg hover:bg-red-500/10">
                 <span class="material-symbols-outlined text-base">delete</span>
+=======
+            </td>
+            <td class="px-6 py-4 text-right flex justify-end gap-2">
+              <!-- Botón Editar -->
+              <button 
+                class="text-gray-500 hover:text-blue-500 transition"
+                (click)="editMember(miembro)"
+                title="Editar miembro">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l6 6L7 21H1v-6l6-6z" />
+                </svg>
+              </button>
+              <!-- Botón Eliminar -->
+              <button 
+                class="text-red-500 hover:text-red-700 transition"
+                (click)="deleteMember(miembro)"
+                title="Eliminar miembro">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-1 12H6L5 7m5-4h4a2 2 0 012 2v0a0 0 0 01-0 0H7a2 2 0 012-2v0z" />
+                </svg>
+>>>>>>> Stashed changes
               </button>
             </div>
           </td>
@@ -110,5 +148,9 @@
     </nav>
 
   </div>
+<<<<<<< Updated upstream
 </main>
 ~~~
+=======
+</main>
+>>>>>>> Stashed changes
